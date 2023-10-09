@@ -70,6 +70,7 @@ body {
   background-color: var(--body-color);
   color: var(--text-color);
   transition: background .4s;
+  user-select: none;
 }
 
 h1,

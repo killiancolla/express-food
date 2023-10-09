@@ -73,7 +73,7 @@ export default function Authentification(/*{ setTest }*/) {
   }, [navigate, redirect]);
 
   return (
-    <div className="login-signup-body">
+    <div id="authentification" className="login-signup-body">
       <div className="login-signup-main">
         <input
           className="signup-input"
