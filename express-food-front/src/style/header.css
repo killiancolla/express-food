@@ -96,7 +96,7 @@
   }
 }
 
-#header .bg-header {
+#header.bg-header {
   box-shadow: 0 4px 20px hsla(var(--hue-color), 24%, 35%, .1);
 }
 
