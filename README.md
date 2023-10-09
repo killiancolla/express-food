@@ -24,11 +24,13 @@ cd express-food
 
 ## Installation
 
-Create .env file with connection parameters :
+Create .env file with connection parameters:
 
 ```js
-DATABASE_USER = "";
-DATABASE_PASSWORD = "";
+DATABASE_USER=
+DATABASE_PASSWORD=
+JWT_SECRET=
+PORT=
 ```
 
 ### Back-end
