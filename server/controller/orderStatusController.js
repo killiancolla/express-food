@@ -6,8 +6,8 @@ export default {
    */
   getAllOrderStatus: async (req, res) => {
     try {
-      const status = await OrderStatus.find();
-      res.json(status);
+      const orderStatus = await OrderStatus.find();
+      res.json(orderStatus);
     } catch (error) {
       res.status(500).json({ error: "Internal server error" });
     }
@@ -19,11 +19,11 @@ export default {
   getOrderStatusById: async (req, res) => {
     const { id } = req.params;
     try {
-      const status = await OrderStatus.findById(id);
-      if (!status) {
+      const orderStatus = await OrderStatus.findById(id);
+      if (!orderStatus) {
         return res.status(404).json({ error: "Status not found" });
       }
-      res.json(status);
+      res.json(orderStatus);
     } catch (error) {
       res.status(500).json({ error: "Internal server error" });
     }
@@ -33,12 +33,12 @@ export default {
    * Ajout d'un statut à la liste
    */
   addOrderStatus: async (req, res) => {
-    const newStatus = new Status({ name: req.body.name });
+    const newOrderStatus = new OrderStatus({ name: req.body.name });
     try {
-      const status = await newOrderStatus.save();
+      const orderStatus = await newOrderStatus.save();
       res.send({
-        _id: OrderStatus._id,
-        status: OrderStatus.name
+        _id: orderStatus._id,
+        status: orderStatus.name
       });
     } catch (error) {
       res.status(500).json({ error: "Internal server error" });
@@ -51,10 +51,10 @@ export default {
   updateOrderStatus: async (req, res) => {
     const { id } = req.params;
     try {
-      const status = await OrderStatus.findById(id);
-      OrderStatus.name = req.body.name || OrderStatus.name;
-      const updatedStatus = await OrderStatus.save();
-      if (!updatedStatus) {
+      const orderStatus = await OrderStatus.findById(id);
+      orderStatus.name = req.body.name || orderStatus.name;
+      const updatedOrderStatus = await orderStatus.save();
+      if (!updatedOrderStatus) {
         return res.status(404).json({ error: "Status not found" });
       }
       res.send({
@@ -72,8 +72,8 @@ export default {
   deleteOrderStatus: async (req, res) => {
     const id = req.body.id;
     try {
-      const deletedStatus = await OrderStatus.findByIdAndDelete(id);
-      if (!deletedStatus) {
+      const deletedOrderStatus = await OrderStatus.findByIdAndDelete(id);
+      if (!deletedOrderStatus) {
         return res.status(404).json({ error: "Status not found" });
       }
       res.json({ message: "Status deleted successfully" });
