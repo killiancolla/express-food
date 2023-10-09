@@ -22,6 +22,8 @@
   display: grid;
   grid-template: 1fr / repeat(2, 1fr);
   grid-gap: 25px;
+  align-items: start;
+  justify-items: center;
 }
 
 #menu .card {

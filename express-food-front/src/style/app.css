@@ -142,6 +142,7 @@ img {
 .main {
   overflow: hidden;
   padding-block: 1rem 0 !important;
+  margin-bottom: 5rem;
 }
 
 
@@ -155,6 +156,7 @@ img {
 @media screen and (min-width: 1023px) {
   .main {
     padding-block: 3rem 0 !important;
+    margin-bottom: 0;
   }
 }
 
