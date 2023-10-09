@@ -7,7 +7,7 @@ export default function Menu() {
   const [plats, setPlats] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/food/')
+    axios.get('http://localhost:5001/api/food/')
       .then(response => {
         let allPlats = response.data;
         setPlats(allPlats);
@@ -25,7 +25,8 @@ export default function Menu() {
         </div>
         <div className="container">
           <div className="grid">
-            {plats.map((plat, index) => (
+            {plats.filter(plat => plat.is_dessert == 0 && plat.flag == 1).map((plat, index) => (
+              index < 2 &&
               <Card key={index} data={plat} />
             ))}
           </div>
@@ -37,7 +38,8 @@ export default function Menu() {
         </div>
         <div className="container">
           <div className="grid">
-            {plats.map((plat, index) => (
+            {plats.filter(plat => plat.is_dessert == 1 && plat.flag == 1).map((plat, index) => (
+              index < 2 &&
               <Card key={index} data={plat} />
             ))}
           </div>
