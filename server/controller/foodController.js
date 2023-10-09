@@ -25,7 +25,7 @@ export default {
         try {
             const food = await Food.findById(id);
             if (!food) {
-                return res.status(404).json({ error: "User not found" });
+                return res.status(404).json({ error: "Food not found" });
             }
             res.json(food);
         } catch (error) {
@@ -76,19 +76,19 @@ export default {
     updateFood: async (req, res) => {
         const { id } = req.params;
         const { name, description, category, origins,
-            is_vegetarian, image, is_dessert, price, flag } = req.body.data;
+            is_vegetarian, image, is_dessert, price, flag } = req.body;
 
         try {
             const food = await Food.findById(id);
-            user.name = name || user.name;
-            user.description = description || user.description;
-            user.category = category || user.category;
-            user.origins = origins || user.origins;
-            user.is_vegetarian = is_vegetarian || user.is_vegetarian;
-            user.image = image || user.image;
-            user.is_dessert = is_dessert || user.is_dessert;
-            user.price = price || user.price;
-            user.flag = flag || user.flag;
+            food.name = name || food.name;
+            food.description = description || food.description;
+            food.category = category || food.category;
+            food.origins = origins || food.origins;
+            food.is_vegetarian = is_vegetarian || food.is_vegetarian;
+            food.image = image || food.image;
+            food.is_dessert = is_dessert || food.is_dessert;
+            food.price = price || food.price;
+            food.flag = flag || food.flag;
 
             const updatedFood = await food.save();
             if (!updatedFood) {
@@ -119,14 +119,12 @@ export default {
     deleteFood: async (req, res) => {
         const { id } = req.params;
         try {
-            const food = await Food.findByIdAndDelete(id)
-            user.flag = 0;
+            const deletedFood = await Food.findByIdAndDelete(id)
 
-            const updatedUser = await user.save();
-            if (!updatedUser) {
-                return res.status(404).json({ error: "User not found" });
+            if (!deletedFood) {
+                return res.status(404).json({ error: "Food not found" });
             }
-            res.status(200).json({ message: "User deleted successfully" });
+            res.status(200).json({ message: "Food deleted successfully" });
         } catch (error) {
             res.status(500).json({ error: "Internal server error" });
         }
