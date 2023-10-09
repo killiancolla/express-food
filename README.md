@@ -1,11 +1,11 @@
-# FinalProject-Data
+# express-food
 
 ## Team
 
-Evrard AKA
-Anthony STANIX
-Killian COLLA
-Jérémy BOISNARD
+- [Evrard AKA](https://github.com/Evrard97)
+- [Anthony STANIX](https://github.com/StAntho)
+- [Killian COLLA](https://github.com/killiancolla)
+- [Jérémy BOISNARD](https://github.com/Floyey)
 
 ## Links
 
@@ -19,7 +19,7 @@ Jérémy BOISNARD
 
 ```sh
 git clone https://github.com/killiancolla/express-food
-cd mern-ligue-sportive
+cd express-food
 ```
 
 ## Installation
@@ -34,7 +34,7 @@ DATABASE_PASSWORD = "";
 ### Back-end
 
 ```sh
-cd back
+cd server
 npm install
 npm run server
 ```
@@ -42,7 +42,7 @@ npm run server
 ### Front-end
 
 ```sh
-cd front
+cd express-food-front
 npm install
 npm start
 ```
