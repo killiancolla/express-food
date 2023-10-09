@@ -122,7 +122,7 @@ export default {
    * Suppression du livreur
    */
   deleteDeliverer: async (req, res) => {
-    const { id } = req.body.id;
+    const id = req.body.id;
     try {
       const deletedDeliverer = await Deliverer.findByIdAndDelete(id);
       if (!deletedDeliverer) {

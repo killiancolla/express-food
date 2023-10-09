@@ -70,7 +70,7 @@ export default {
    * Suppression du statut
    */
   deleteStatus: async (req, res) => {
-    const { id } = req.body.id;
+    const id = req.body.id;
     try {
       const deletedStatus = await Status.findByIdAndDelete(id);
       if (!deletedStatus) {
