@@ -1,5 +1,5 @@
 import express from "express";
-import Status from "../controller/statusController";
+import Status from "../controller/statusController.js";
 
 const statusRouter = express.Router();
 
