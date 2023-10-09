@@ -18,9 +18,9 @@ export default function Menu() {
   }, []);
 
   return (
-    <section class="section">
-      <div class="container">
-        <div class="grid">
+    <section className="section">
+      <div className="container">
+        <div className="grid">
           {plats.map((plat, index) => (
             <Card key={index} data={plat} />
           ))}
