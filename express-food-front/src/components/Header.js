@@ -85,7 +85,7 @@ export default function Header({ test, setTest }) {
             )}
             {test === null ? (
               <li className="nav__item">
-                <NavLink onClick={closeMenu} to="/register" className={({ isActive }) => (isActive ? "nav__link active-link" : "nav__link")}
+                <NavLink onClick={closeMenu} to="/auth" className={({ isActive }) => (isActive ? "nav__link active-link" : "nav__link")}
                 >
                   <i className="ri-account-circle-line"></i> Inscription
                 </NavLink>
