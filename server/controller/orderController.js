@@ -34,7 +34,7 @@ export default {
   /**
    * Création de l'utilisateur
    */
-  createOder: async (req, res) => {
+  createOrder: async (req, res) => {
     const {
       customer,
       delivers,
