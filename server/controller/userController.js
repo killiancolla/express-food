@@ -8,7 +8,7 @@ export default {
    */
   getAllUsers: async (req, res) => {
     try {
-      const users = await User.find({ flag: 1 });
+      const users = await User.find();
       res.json(users);
     } catch (error) {
       res.status(500).json({ error: "Internal server error" });
@@ -66,14 +66,14 @@ export default {
    * Création de l'utilisateur
    */
   createUser: async (req, res) => {
-    const { name, firstname, mail, password, is_admin } = req.body.data;
+    const { name, firstname, mail, password } = req.body;
     console.log(req.body);
     const newUser = new User({
       name: name,
       firstname: firstname,
       mail: mail,
       password: bcrypt.hashSync(password),
-      is_admin: is_admin,
+      is_admin: User.is_admin,
     });
     try {
       const existUser = await User.find({
@@ -101,7 +101,7 @@ export default {
    */
   updateUser: async (req, res) => {
     const { id } = req.params;
-    const { name, firstname, mail, password } = req.body.data;
+    const { name, firstname, mail, password } = req.body;
     try {
       const user = await User.findById(id);
       user.name = name || user.name;
@@ -137,14 +137,8 @@ export default {
   deleteUser: async (req, res) => {
     const { id } = req.params;
     try {
-      const user = await User.findById(id);
-      user.flag = 0;
-
-      const updatedUser = await user.save();
-      if (!updatedUser) {
-        return res.status(404).json({ error: "User not found" });
-      }
-      res.status(200).json({ message: "User deleted successfully" });
+      const user = await User.findByIdAndDelete(id);
+      if (user) res.status(200).json({ message: "User deleted successfully" });
     } catch (error) {
       res.status(500).json({ error: "Internal server error" });
     }
