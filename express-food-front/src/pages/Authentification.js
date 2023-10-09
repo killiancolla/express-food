@@ -1,4 +1,4 @@
-import "../style/inscription.css";
+import "../style/Authentification.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";

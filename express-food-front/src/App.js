@@ -5,6 +5,7 @@ import "./style/app.css";
 import Header from "./components/Header";
 import Home from "./pages/Home";
 import Menu from "./pages/Menu";
+import Authentification from "./pages/Authentification";
 
 function App() {
   const [test, setTest] = useState(userInfo);
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/menu" element={<Menu />} />
+          <Route path="/auth" element={<Authentification />} />
         </Routes>
       </main>
     </BrowserRouter>
