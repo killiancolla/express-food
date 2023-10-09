@@ -53,8 +53,7 @@ export default {
           name: users.name,
           firstname: users.firstname,
           mail: users.mail,
-          role: users.role,
-          flag: users.flag,
+          is_admin: users.is_admin,
           token: generateToken(users),
         });
       }
@@ -67,16 +66,15 @@ export default {
    * Création de l'utilisateur
    */
   createUser: async (req, res) => {
-    const { name, firstname, mail, password, role } = req.body.data;
+    const { name, firstname, mail, password, is_admin } = req.body.data;
     console.log(req.body);
     const newUser = new User({
       name: name,
       firstname: firstname,
       mail: mail,
       password: bcrypt.hashSync(password),
-      role: role,
+      is_admin: is_admin,
     });
-    console.log(newUser);
     try {
       const existUser = await User.find({
         mail: { $regex: mail, $options: "i" },
@@ -91,8 +89,7 @@ export default {
         firstname: user.firstname,
         mail: user.mail,
         password: user.password,
-        flag: user.flag,
-        role: user.role,
+        is_admin: user.is_admin,
       });
     } catch (error) {
       res.status(500).json({ error: "Internal server error" });
@@ -104,7 +101,7 @@ export default {
    */
   updateUser: async (req, res) => {
     const { id } = req.params;
-    const { name, firstname, mail, password, role } = req.body.data;
+    const { name, firstname, mail, password } = req.body.data;
     try {
       const user = await User.findById(id);
       user.name = name || user.name;
@@ -113,11 +110,8 @@ export default {
       if (password === "" || password === undefined) {
         user.password = user.password;
       } else {
-        console.log(password);
         user.password = bcrypt.hashSync(password);
       }
-      user.flag = user.flag;
-      user.role = role || user.role;
 
       const updatedUser = await user.save();
       if (!updatedUser) {
@@ -129,8 +123,6 @@ export default {
         firstname: updatedUser.firstname,
         mail: updatedUser.mail,
         password: updatedUser.password,
-        flag: updatedUser.flag,
-        role: updatedUser.role,
         token: generateToken(updatedUser),
       });
     } catch (error) {

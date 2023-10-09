@@ -7,7 +7,7 @@ export const generateToken = (user) => {
       name: user.name,
       firstname: user.firstname,
       mail: user.mail,
-      is_admin: user.role,
+      is_admin: user.is_admin,
     },
     process.env.JWT_SECRET,
     {
@@ -34,25 +34,9 @@ export const isAuth = (req, res, next) => {
 };
 
 export const isAdmin = (req, res, next) => {
-  if (req.user && req.user.role === "admin") {
+  if (req.user && req.user.is_admin === 1) {
     next();
     return;
   }
   return res.status(401).send({ message: "Admin Token is not valid" });
-};
-
-export const isDoctor = (req, res, next) => {
-  if (req.user && req.user.role === "doctor") {
-    next();
-    return;
-  }
-  return res.status(401).send({ message: "Coach Token is not valid" });
-};
-
-export const isTec = (req, res, next) => {
-  if (req.user && req.user.role === "tec") {
-    next();
-    return;
-  }
-  return res.status(401).send({ message: "Tec Token is not valid" });
 };
