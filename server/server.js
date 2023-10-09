@@ -6,6 +6,7 @@ import userRouter from "./routes/userRoutes.js";
 import foodRouter from "./routes/foodRoutes.js";
 import delivererRouter from "./routes/delivererRoutes.js";
 import statusRouter from "./routes/statusRoutes.js";
+import orderRouter from "./routes/orderRoutes.js";
 import orderStatusRouter from "./routes/orderStatusRoutes.js";
 
 const app = express();
@@ -30,6 +31,7 @@ app.use("/api/user", userRouter);
 app.use("/api/food", foodRouter);
 app.use("/api/deliverer", delivererRouter);
 app.use("/api/status", statusRouter);
+app.use("/api/order", orderRouter);
 app.use("/api/order_status", orderStatusRouter);
 
 // Lancement du server
