@@ -3,6 +3,9 @@ import mongoose from "mongoose";
 import cors from "cors";
 import { dbConnection } from "./config/database.js";
 import userRouter from "./routes/userRoutes.js";
+import foodRouter from "./routes/foodRoutes.js";
+import delivererRouter from "./routes/delivererRoutes.js";
+import statusRouter from "./routes/statusRoutes.js";
 
 const app = express();
 app.use(cors());
@@ -23,6 +26,9 @@ app.get("/", (req, res) => {
   res.send("Server is ready");
 });
 app.use("/api/user", userRouter);
+app.use("/api/food", foodRouter);
+app.use("/api/deliverer", delivererRouter);
+app.use("/api/status", statusRouter);
 
 // Lancement du server
 const port = process.env.PORT || 5000;
