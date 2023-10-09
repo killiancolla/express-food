@@ -3,7 +3,7 @@ import "../style/Card.css";
 export default function Card({ data }) {
   return (
     <article className="card">
-      <img className="card__image" src={data.image} />
+      <img className="card__image" src={data.image} alt={data.image} />
       <div className="card__data">
         <div className="card__info">
           <h2>{data.name}</h2>
