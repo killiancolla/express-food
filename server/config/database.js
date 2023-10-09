@@ -4,7 +4,7 @@ dotenv.config();
 const { DATABASE_USER, DATABASE_PASSWORD } = process.env;
 
 export const dbConnection = {
-  url: `mongodb+srv://${DATABASE_USER}:${DATABASE_PASSWORD}@cluster0.yvkakwg.mongodb.net/?retryWrites=true&w=majority`,
+  url: `mongodb+srv://${DATABASE_USER}:${DATABASE_PASSWORD}@express-food.3ma8mvy.mongodb.net/`,
   options: {
     useNewUrlParser: true,
     useUnifiedTopology: true,

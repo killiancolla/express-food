@@ -7,8 +7,7 @@ export const generateToken = (user) => {
       name: user.name,
       firstname: user.firstname,
       mail: user.mail,
-      role: user.role,
-      flag: user.flag,
+      is_admin: user.role,
     },
     process.env.JWT_SECRET,
     {
@@ -20,13 +19,11 @@ export const generateToken = (user) => {
 export const isAuth = (req, res, next) => {
   const authorization = req.headers.authorization;
   if (authorization) {
-    // console.log("auto", authorization);
     const token = authorization.slice(7, authorization.length);
     jwt.verify(token, process.env.JWT_SECRET, (err, decode) => {
       if (err) {
         return res.status(403).send({ message: "Invalid Token" });
       }
-      // console.log("decode", decode);
       req.user = decode;
       next();
       return;
@@ -38,7 +35,6 @@ export const isAuth = (req, res, next) => {
 
 export const isAdmin = (req, res, next) => {
   if (req.user && req.user.role === "admin") {
-    // console.log("admin");
     next();
     return;
   }

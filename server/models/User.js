@@ -17,13 +17,8 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  role: {
-    type: String,
-    required: true,
-    default: "tec",
-  },
-  flag: {
-    type: Number,
+  is_admin: {
+    type: integer,
     required: true,
     default: 1,
   },
