@@ -1,7 +1,31 @@
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import Card from '../components/Card';
+
 export default function Menu() {
+  // Liste des plats 
+  const [plats, setPlats] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:5001/api/food/')
+      .then(response => {
+        let allPlats = response.data;
+        setPlats(allPlats);
+      })
+      .catch(error => {
+        console.error('Failed to fetch film data:', error);
+      });
+  }, []);
+
   return (
-    <div>
-      <h1>Menu du jour</h1>
-    </div>
+    <section class="section">
+      <div class="container">
+        <div class="grid">
+          {plats.map((plat, index) => (
+            <Card key={index} data={plat} />
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
