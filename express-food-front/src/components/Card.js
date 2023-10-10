@@ -25,7 +25,6 @@ export default function Card({ data }) {
   }
 
   function closeModal() {
-    console.log("close");
     setIsOpen(false);
   }
 
@@ -53,21 +52,23 @@ export default function Card({ data }) {
   };
 
   return (
-    <article className="card" onClick={openModal}>
-      <img className="card__image" src={data.image} alt={data.image} />
-      <div className="card__data">
-        <div className="card__info">
-          <h2>{data.name}</h2>
-          <p>{data.description}</p>
+    <>
+      <article className="card" onClick={openModal}>
+        <img className="card__image" src={data.image} alt={data.image} />
+        <div className="card__data">
+          <div className="card__info">
+            <h2>{data.name}</h2>
+            <p>{data.description}</p>
+          </div>
+          <h3 className="card__price">{data.price}€</h3>
+          <button
+            className={`card__add ${buttonClicked ? "card__add--clicked" : ""}`}
+            onClick={handleClick}
+          >
+            {buttonClicked ? "✔" : "+"}
+          </button>
         </div>
-        <h3 className="card__price">{data.price}€</h3>
-        <button
-          className={`card__add ${buttonClicked ? "card__add--clicked" : ""}`}
-          onClick={handleClick}
-        >
-          {buttonClicked ? "✔" : "+"}
-        </button>
-      </div>
+      </article>
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
@@ -88,6 +89,6 @@ export default function Card({ data }) {
           </div>
         </div>
       </Modal>
-    </article>
+    </>
   );
 }
