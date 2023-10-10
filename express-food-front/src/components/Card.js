@@ -2,7 +2,6 @@ import { useState } from "react";
 import "../style/Card.css";
 import Modal from "react-modal";
 import { useCart } from "./CartContext";
-import { useState } from "react";
 
 const customStyles = {
   content: {
