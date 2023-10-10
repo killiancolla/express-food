@@ -19,6 +19,7 @@ Modal.setAppElement("#root");
 export default function Card({ data }) {
   let subtitle;
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [buttonClicked, setButtonClicked] = useState(false);
 
   function openModal() {
     setIsOpen(true);
@@ -27,8 +28,6 @@ export default function Card({ data }) {
   function closeModal() {
     setIsOpen(false);
   }
-
-  const [buttonClicked, setButtonClicked] = useState(false);
 
   const handleClick = () => {
     addItemToCart(data);
@@ -53,10 +52,10 @@ export default function Card({ data }) {
 
   return (
     <>
-      <article className="card" onClick={openModal}>
-        <img className="card__image" src={data.image} alt={data.image} />
+      <article className="card">
+        <img className="card__image" src={data.image} alt={data.image} onClick={openModal} />
         <div className="card__data">
-          <div className="card__info">
+          <div className="card__info" onClick={openModal}>
             <h2>{data.name}</h2>
             <p>{data.description}</p>
           </div>
@@ -69,6 +68,7 @@ export default function Card({ data }) {
           </button>
         </div>
       </article>
+
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
