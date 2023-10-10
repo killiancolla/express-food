@@ -106,7 +106,7 @@ export default function Header() {
               <li className="nav__item">
                 <NavLink
                   onClick={closeMenu}
-                  to="/admin"
+                  to="/dashboard"
                   className={({ isActive }) =>
                     isActive ? "nav__link active-link" : "nav__link"
                   }
