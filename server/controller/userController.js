@@ -39,7 +39,8 @@ export default {
    */
   getUserByMail: async (req, res) => {
     const { mail } = req.params;
-    console.log(mail, req.body.password);
+    const { password } = req.body;
+    // console.log(mail, req.body.password);
     try {
       const users = await User.findOne({
         mail: { $regex: mail, $options: "i" },
@@ -47,9 +48,10 @@ export default {
       if (!users) {
         return res.status(404).json({ error: "User not found" });
       }
-      if (bcrypt.compareSync(req.body.password, users.password)) {
+      if (bcrypt.compareSync(password, users.password)) {
         res.send({
           _id: users._id,
+          username: users.username,
           name: users.name,
           firstname: users.firstname,
           mail: users.mail,
@@ -66,13 +68,14 @@ export default {
    * Création de l'utilisateur
    */
   createUser: async (req, res) => {
-    const { name, firstname, mail, password } = req.body;
+    const { name, firstname, mail, password, username } = req.body;
     console.log(req.body);
     const newUser = new User({
       name: name,
       firstname: firstname,
       mail: mail,
       password: bcrypt.hashSync(password),
+      username: username,
       is_admin: User.is_admin,
     });
     try {
@@ -88,8 +91,10 @@ export default {
         name: user.name,
         firstname: user.firstname,
         mail: user.mail,
-        password: user.password,
+        username: user.username,
+        // password: user.password,
         is_admin: user.is_admin,
+        token: generateToken(user),
       });
     } catch (error) {
       res.status(500).json({ error: "Internal server error" });
@@ -101,12 +106,13 @@ export default {
    */
   updateUser: async (req, res) => {
     const { id } = req.params;
-    const { name, firstname, mail, password } = req.body;
+    const { name, firstname, mail, password, username } = req.body;
     try {
       const user = await User.findById(id);
       user.name = name || user.name;
       user.firstname = firstname || user.firstname;
       user.mail = mail || user.mail;
+      user.username = username || user.username;
       if (password === "" || password === undefined) {
         user.password = user.password;
       } else {
