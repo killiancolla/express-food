@@ -1,7 +1,21 @@
 import "../style/Card.css";
 import { useCart } from "./CartContext";
+import { useState } from "react";
 
 export default function Card({ data }) {
+
+  const [buttonClicked, setButtonClicked] = useState(false);
+
+  const handleClick = () => {
+
+    addItemToCart(data);
+
+    setButtonClicked(true);
+
+    setTimeout(() => {
+      setButtonClicked(false);
+    }, 2000);
+  };
 
   // Fonctions du panier
   const { state, dispatch } = useCart();
@@ -23,7 +37,12 @@ export default function Card({ data }) {
           <p>{data.description}</p>
         </div>
         <h3 className="card__price">{data.price}€</h3>
-        <button onClick={() => {addItemToCart(data)}} className="card__add">+</button>
+        <button 
+      className={`card__add ${buttonClicked ? 'card__add--clicked' : ''}`} 
+      onClick={handleClick}
+    >
+      {buttonClicked ? '✔' : '+'}
+    </button>
       </div>
     </article>
   )

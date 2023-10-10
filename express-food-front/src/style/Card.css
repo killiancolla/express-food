@@ -136,3 +136,7 @@
   transform: translateY(-5px);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
+
+#menu .card__add--clicked {
+  background-color: green;
+}

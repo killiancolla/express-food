@@ -19,24 +19,24 @@
     align-items: center;
     height: 100%;
     text-align: center;
-    background: rgba( 79, 79, 79, 0.2 );
-    box-shadow: 0 8px 20px 0 rgba( 31, 38, 135, 0.37 );
-    backdrop-filter: blur( 4px );
-    -webkit-backdrop-filter: blur( 4px );
+    background: rgba(79, 79, 79, 0.2);
+    box-shadow: 0 8px 20px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     border-radius: 10px;
-    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 #cart input {
     margin: 20px 0px;
     width: 100px;
     padding: 10px;
-    background: rgba( 79, 79, 79, 0.2 );
-    box-shadow: 0 8px 20px 0 rgba( 31, 38, 135, 0.37 );
-    backdrop-filter: blur( 4px );
-    -webkit-backdrop-filter: blur( 4px );
+    background: rgba(79, 79, 79, 0.2);
+    box-shadow: 0 8px 20px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     border-radius: 10px;
-    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 #cart .glassMorph h2 {
@@ -53,4 +53,19 @@
     border-radius: 50%;
     border: white 5px solid;
     margin-top: 20px;
+}
+
+#cart .input-container {
+    display: flex;
+    align-items: center;
+}
+
+#cart .input-container button {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+#cart .ri-delete-bin-line {
+    font-size:x-large;
+    margin-left: 10px;
 }

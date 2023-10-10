@@ -44,7 +44,7 @@ const cartReducer = (state, action) => {
       }
 
     case 'REMOVE_FOOD':
-      return { ...state, cart: state.cart.filter(item => item.id !== action.id) };
+      return { ...state, cart: state.cart.filter(item => item._id !== action.id) };
     default:
       return state;
   }
