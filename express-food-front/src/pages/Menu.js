@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Card from '../components/Card';
+import { useCart } from '../components/CartContext';
 
 export default function Menu() {
   // Liste des plats
@@ -19,6 +20,7 @@ export default function Menu() {
 
   return (
     <span id="menu">
+
       <section className="section">
         <div className="title-section">
           <h1>Nos Plats</h1>

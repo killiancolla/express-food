@@ -1,6 +1,19 @@
 import "../style/Card.css";
+import { useCart } from "./CartContext";
 
 export default function Card({ data }) {
+
+  // Fonctions du panier
+  const { state, dispatch } = useCart();
+
+  const addItemToCart = (item) => {
+    dispatch({ type: 'ADD_FOOD', item });
+  };
+
+  const removeItemFromCart = (id) => {
+    dispatch({ type: 'REMOVE_FOOD', id });
+  };
+
   return (
     <article className="card">
       <img className="card__image" src={data.image} alt={data.image} />
@@ -10,7 +23,7 @@ export default function Card({ data }) {
           <p>{data.description}</p>
         </div>
         <h3 className="card__price">{data.price}€</h3>
-        <button className="card__add">+</button>
+        <button onClick={() => {addItemToCart(data)}} className="card__add">+</button>
       </div>
     </article>
   )
