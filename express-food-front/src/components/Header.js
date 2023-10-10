@@ -1,12 +1,14 @@
 import { NavLink } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import "../style/header.css";
 import "remixicon/fonts/remixicon.css";
+import { Store } from "./../Store";
 
-let v;
-export default function Header({ test, setTest }) {
+// let v;
+export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [role, setRole] = useState();
+  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const { userInfo } = state;
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -16,27 +18,18 @@ export default function Header({ test, setTest }) {
   };
 
   const loagout = () => {
+    ctxDispatch({ type: "USER_SIGN_OUT" });
     localStorage.removeItem("userInfo");
-    setTest(localStorage.getItem("userInfo"));
   };
 
-  useEffect(() => {
-    if (typeof test === "object" && test !== null) {
-      setRole(test.is_superuser);
-    } else if (typeof test !== "object" && test !== null) {
-      v = JSON.parse(test);
-      setRole(v.is_superuser);
-    } else if (typeof v === "undefined") {
-      setRole("");
-    }
-  }, [test]);
-
   const scrollHeader = () => {
-    const header = document.getElementById('header')
-    window.scrollY >= 5 ? header.classList.add('bg-header') : header.classList.remove('bg-header')
-  }
+    const header = document.getElementById("header");
+    window.scrollY >= 5
+      ? header.classList.add("bg-header")
+      : header.classList.remove("bg-header");
+  };
 
-  window.addEventListener('scroll', scrollHeader)
+  window.addEventListener("scroll", scrollHeader);
 
   return (
     <header className="header" id="header">
@@ -45,47 +38,91 @@ export default function Header({ test, setTest }) {
           ExpressFood
         </NavLink>
 
-        <div className={`nav__menu active-link${isMenuOpen ? " show-menu" : ""}`} id="nav-menu">
+        <div
+          className={`nav__menu active-link${isMenuOpen ? " show-menu" : ""}`}
+          id="nav-menu"
+        >
           <ul className="nav__list grid">
             <li className="nav__item">
-              <NavLink onClick={closeMenu} to="/" className={({ isActive }) => (isActive ? "nav__link active-link" : "nav__link")}>
+              <NavLink
+                onClick={closeMenu}
+                to="/"
+                className={({ isActive }) =>
+                  isActive ? "nav__link active-link" : "nav__link"
+                }
+              >
                 <i className="ri-home-line"></i> Accueil
               </NavLink>
             </li>
             <li className="nav__item">
-              <NavLink onClick={closeMenu} to="/menu" className={({ isActive }) => (isActive ? "nav__link active-link" : "nav__link")}>
+              <NavLink
+                onClick={closeMenu}
+                to="/menu"
+                className={({ isActive }) =>
+                  isActive ? "nav__link active-link" : "nav__link"
+                }
+              >
                 <i className="ri-restaurant-2-line"></i> Menu
               </NavLink>
             </li>
             <li className="nav__item">
-              <NavLink onClick={closeMenu} to="/cart" className={({ isActive }) => (isActive ? "nav__link active-link" : "nav__link")}>
+              <NavLink
+                onClick={closeMenu}
+                to="/cart"
+                className={({ isActive }) =>
+                  isActive ? "nav__link active-link" : "nav__link"
+                }
+              >
                 <i className="ri-shopping-cart-line"></i> Panier
               </NavLink>
             </li>
-            {test !== null && (
+            {userInfo && (
               <>
                 <li className="nav__item">
-                  <NavLink onClick={closeMenu} to="/account" className={({ isActive }) => (isActive ? "nav__link active-link" : "nav__link")}>
+                  <NavLink
+                    onClick={closeMenu}
+                    to="/account"
+                    className={({ isActive }) =>
+                      isActive ? "nav__link active-link" : "nav__link"
+                    }
+                  >
                     <i className="ri-account-circle-line"></i> Mon compte
                   </NavLink>
                 </li>
                 <li className="nav__item">
-                  <NavLink onClick={closeMenu} to="/delivery" className={({ isActive }) => (isActive ? "nav__link active-link" : "nav__link")}>
+                  <NavLink
+                    onClick={closeMenu}
+                    to="/delivery"
+                    className={({ isActive }) =>
+                      isActive ? "nav__link active-link" : "nav__link"
+                    }
+                  >
                     <i className="ri-bike-line"></i> Livraison
                   </NavLink>
                 </li>
               </>
             )}
-            {test !== null && role === true && (
+            {userInfo && userInfo.is_admin === 1 && (
               <li className="nav__item">
-                <NavLink onClick={closeMenu} to="/admin" className={({ isActive }) => (isActive ? "nav__link active-link" : "nav__link")}>
+                <NavLink
+                  onClick={closeMenu}
+                  to="/admin"
+                  className={({ isActive }) =>
+                    isActive ? "nav__link active-link" : "nav__link"
+                  }
+                >
                   <i className="ri-settings-2-line"></i> Administration
                 </NavLink>
               </li>
             )}
-            {test === null ? (
+            {!userInfo ? (
               <li className="nav__item">
-                <NavLink onClick={closeMenu} to="/auth" className={({ isActive }) => (isActive ? "nav__link active-link" : "nav__link")}
+                <NavLink
+                  onClick={closeMenu}
+                  to="/auth"
+                  className={({ isActive }) =>
+                    isActive ? "nav__link active-link" : "nav__link"
+                  }
                 >
                   <i className="ri-account-circle-line"></i> Inscription
                 </NavLink>

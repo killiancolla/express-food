@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import React, { useState } from "react";
-import { userInfo } from "./utils";
+import React from "react";
 import "./style/app.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -15,20 +14,16 @@ import Delivery from "./pages/Delivery";
 import { CartProvider } from "./components/CartContext";
 
 function App() {
-  const [test, setTest] = useState(userInfo);
   return (
     <CartProvider>
       <BrowserRouter>
-        <Header test={test} setTest={setTest} />
+        <Header />
         <main className="main">
           <ToastContainer position="bottom-center" limit={1} />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/menu" element={<Menu />} />
-            <Route
-              path="/auth"
-              element={<Authentification setTest={setTest} />}
-            />
+            <Route path="/auth" element={<Authentification />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/account" element={<Account />} />
             <Route path="/delivery" element={<Delivery />} />

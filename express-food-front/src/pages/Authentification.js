@@ -1,16 +1,19 @@
 import "../style/Authentification.css";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getErrorFromBackend } from "./../utils";
 import { toast } from "react-toastify";
+import { Store } from "../Store";
 
-export default function Authentification({ setTest }) {
+export default function Authentification(/*{ setTest }*/) {
   const navigate = useNavigate();
   const { search } = useLocation();
   const redirectUrl = new URLSearchParams(search).get("redirect");
   const redirect = redirectUrl ? redirectUrl : "/";
   const [userdata, setUserdata] = useState([]);
+  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const { userInfo } = state;
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -27,21 +30,9 @@ export default function Authentification({ setTest }) {
         `http://localhost:5000/api/user/register`,
         userdata
       );
-      // console.log(data.data);
-      if (data.data.user !== undefined) {
-        let userInfo = {
-          token: data.data.token,
-          username: data.data.username,
-          email: data.data.email,
-          firstname: data.data.firstname,
-          name: data.data.name,
-          id: data.data.id,
-          is_admin: data.data.is_admin,
-        };
-        localStorage.setItem("userInfo", JSON.stringify(userInfo));
-        setTest(localStorage.getItem("userInfo"));
-        navigate(redirect || "/");
-      }
+      ctxDispatch({ type: "USER_SIGNIN", payload: data.data });
+      localStorage.setItem("userInfo", JSON.stringify(data.data));
+      navigate(redirect || "/");
     } catch (error) {
       toast.error(getErrorFromBackend(error));
     }
@@ -55,18 +46,8 @@ export default function Authentification({ setTest }) {
         `http://localhost:5000/api/user/signin/${userdata.mail}`,
         userdata
       );
-      // console.log(data.data);
-      let userInfo = {
-        token: data.data.token,
-        username: data.data.username,
-        mail: data.data.email,
-        firstname: data.data.firstname,
-        name: data.data.name,
-        id: data.data.id,
-        is_admin: data.data.is_admin,
-      };
-      localStorage.setItem("userInfo", JSON.stringify(userInfo));
-      setTest(localStorage.getItem("userInfo"));
+      ctxDispatch({ type: "USER_SIGNIN", payload: data.data });
+      localStorage.setItem("userInfo", JSON.stringify(data.data));
       navigate(redirect || "/");
     } catch (error) {
       toast.error(getErrorFromBackend(error));
@@ -74,10 +55,10 @@ export default function Authentification({ setTest }) {
   };
 
   useEffect(() => {
-    if (JSON.parse(localStorage.getItem("userInfo"))) {
+    if (userInfo) {
       navigate(redirect);
     }
-  }, [navigate, redirect]);
+  }, [navigate, redirect, userInfo]);
 
   return (
     <div id="authentification" className="login-signup-body">
