@@ -1,7 +1,12 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 
 const initialState = {
-  cart: []
+  cart: localStorage.getItem("cart")
+    ? JSON.parse(localStorage.getItem("cart"))
+    : [],
+  userInfo: localStorage.getItem("userInfo")
+    ? JSON.parse(localStorage.getItem("userInfo"))
+    : null
 };
 
 const CartContext = createContext();
@@ -45,17 +50,26 @@ const cartReducer = (state, action) => {
 
     case 'REMOVE_FOOD':
       return { ...state, cart: state.cart.filter(item => item._id !== action.id) };
+
+    case "USER_SIGNIN":
+      return { ...state, userInfo: action.payload };
+
+    case "USER_SIGN_OUT":
+      return {
+        ...state,
+        userInfo: null,
+      };
+
     default:
       return state;
   }
 };
 
 export const CartProvider = ({ children }) => {
-  const localState = JSON.parse(localStorage.getItem('cart'));
-  const [state, dispatch] = useReducer(cartReducer, localState || initialState);
+  const [state, dispatch] = useReducer(cartReducer, initialState);
 
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(state));
+    localStorage.setItem('cart', JSON.stringify(state.cart));
   }, [state]);
 
   return (

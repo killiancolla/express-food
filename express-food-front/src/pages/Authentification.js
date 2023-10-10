@@ -4,7 +4,7 @@ import { useEffect, useState, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getErrorFromBackend } from "./../utils";
 import { toast } from "react-toastify";
-import { Store } from "../Store";
+import { useCart } from "../components/CartContext";
 
 export default function Authentification(/*{ setTest }*/) {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ export default function Authentification(/*{ setTest }*/) {
   const redirectUrl = new URLSearchParams(search).get("redirect");
   const redirect = redirectUrl ? redirectUrl : "/";
   const [userdata, setUserdata] = useState([]);
-  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const { state, dispatch } = useCart();
   const { userInfo } = state;
 
   const handleChange = (event) => {
@@ -30,7 +30,7 @@ export default function Authentification(/*{ setTest }*/) {
         `http://localhost:5000/api/user/register`,
         userdata
       );
-      ctxDispatch({ type: "USER_SIGNIN", payload: data.data });
+      dispatch({ type: "USER_SIGNIN", payload: data.data });
       localStorage.setItem("userInfo", JSON.stringify(data.data));
       navigate(redirect || "/");
     } catch (error) {
@@ -46,7 +46,7 @@ export default function Authentification(/*{ setTest }*/) {
         `http://localhost:5000/api/user/signin/${userdata.mail}`,
         userdata
       );
-      ctxDispatch({ type: "USER_SIGNIN", payload: data.data });
+      dispatch({ type: "USER_SIGNIN", payload: data.data });
       localStorage.setItem("userInfo", JSON.stringify(data.data));
       navigate(redirect || "/");
     } catch (error) {

@@ -2,12 +2,12 @@ import { NavLink } from "react-router-dom";
 import { useContext, useState } from "react";
 import "../style/header.css";
 import "remixicon/fonts/remixicon.css";
-import { Store } from "./../Store";
+import { useCart } from "./CartContext";
 
 // let v;
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const { state, dispatch } = useCart();
   const { userInfo } = state;
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -18,7 +18,7 @@ export default function Header() {
   };
 
   const loagout = () => {
-    ctxDispatch({ type: "USER_SIGN_OUT" });
+    dispatch({ type: "USER_SIGN_OUT" });
     localStorage.removeItem("userInfo");
   };
 

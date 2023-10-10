@@ -43,8 +43,7 @@ export default {
       code,
       order_start,
       order_end,
-    } = req.body.data;
-    console.log(req.body);
+    } = req.body;
     const newOrder = new Order({
       customer: customer,
       delivers: delivers,

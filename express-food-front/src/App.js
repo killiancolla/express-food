@@ -11,27 +11,24 @@ import Authentification from "./pages/Authentification";
 import Cart from "./pages/Cart";
 import Account from "./pages/Account";
 import Delivery from "./pages/Delivery";
-import { CartProvider } from "./components/CartContext";
 
 function App() {
   return (
-    <CartProvider>
-      <BrowserRouter>
-        <Header />
-        <main className="main">
-          <ToastContainer position="bottom-center" limit={1} />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/menu" element={<Menu />} />
-            <Route path="/auth" element={<Authentification />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/account" element={<Account />} />
-            <Route path="/delivery" element={<Delivery />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-          </Routes>
-        </main>
-      </BrowserRouter>
-    </CartProvider>
+    <BrowserRouter>
+      <Header />
+      <main className="main">
+        <ToastContainer position="bottom-center" limit={1} />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/menu" element={<Menu />} />
+          <Route path="/auth" element={<Authentification />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/delivery" element={<Delivery />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
+      </main>
+    </BrowserRouter>
   );
 }
 

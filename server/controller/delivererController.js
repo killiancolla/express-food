@@ -50,7 +50,7 @@ export default {
    * Ajout d'un livreur à la liste
    */
   addDeliverer: async (req, res) => {
-    const newDeliverer = new Deliverer({ user_id: req.body.user_id });
+    const newDeliverer = new Deliverer({ user_id: req.body.user_id, status: req.body.status });
     try {
       const existDeliverer = await Deliverer.find({ user_id: req.body.user_id });
       if (existDeliverer.length > 0) {
@@ -61,7 +61,7 @@ export default {
         _id: deliverer._id,
         user_id: deliverer.user_id,
         status: deliverer.status,
-        position: updatedDeliverer.position
+        position: deliverer.position
       });
     } catch (error) {
       res.status(500).json({ error: "Internal server error" });
