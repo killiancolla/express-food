@@ -1,7 +1,9 @@
+#menu h1,
 #menu h2,
 #menu h3,
 #menu p {
   margin: 0;
+  line-height: normal;
 }
 
 #menu .section {
@@ -16,19 +18,29 @@
 #menu .container {
   max-width: 375px;
   margin: 0 auto;
+  padding: 0;
+  width: initial;
 }
 
 #menu .grid {
   display: grid;
   grid-template: 1fr / repeat(2, 1fr);
   grid-gap: 25px;
-  align-items: start;
   justify-items: center;
 }
 
 #menu .card {
   position: relative;
   max-width: 80%;
+  display: initial;
+  min-width: initial;
+  height: initial;
+  color: initial;
+  word-wrap: normal;
+  background-color: initial;
+  background-clip: initial;
+  border: none;
+  border-radius: 0;
 }
 
 #menu .card__image {
@@ -36,7 +48,7 @@
   aspect-ratio: 1/1;
   object-fit: cover;
   border-radius: 50%;
-  max-width: 130%;
+  min-width: 170px;
   left: -15%;
   right: 0;
   margin: 0 auto;
@@ -53,7 +65,7 @@
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
   background-color: #ededed;
-  padding-top: calc(100% * 1.18);
+  padding-top: 9rem;
   transition: all 0.3s ease-out 0.1s;
 }
 
