@@ -124,3 +124,21 @@
   transform: translateY(-5px);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
+
+.ReactModalPortal {
+  position: absolute;
+  z-index: 10;
+  margin: 5vw;
+}
+
+.DetailFood {
+  display: flex;
+}
+
+.DetailFood img {
+  width: 50%;
+}
+
+.DetailFood div {
+  padding: 2vw;
+}
