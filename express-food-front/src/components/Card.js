@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "../style/Card.css";
 import Modal from "react-modal";
+import { useCart } from "./CartContext";
+import { useState } from "react";
 
 const customStyles = {
   content: {
@@ -28,6 +30,29 @@ export default function Card({ data }) {
     setIsOpen(false);
   }
 
+  const [buttonClicked, setButtonClicked] = useState(false);
+
+  const handleClick = () => {
+    addItemToCart(data);
+
+    setButtonClicked(true);
+
+    setTimeout(() => {
+      setButtonClicked(false);
+    }, 2000);
+  };
+
+  // Fonctions du panier
+  const { state, dispatch } = useCart();
+
+  const addItemToCart = (item) => {
+    dispatch({ type: "ADD_FOOD", item });
+  };
+
+  const removeItemFromCart = (id) => {
+    dispatch({ type: "REMOVE_FOOD", id });
+  };
+
   return (
     <article className="card" onClick={openModal}>
       <img className="card__image" src={data.image} alt={data.image} />
@@ -37,7 +62,12 @@ export default function Card({ data }) {
           <p>{data.description}</p>
         </div>
         <h3 className="card__price">{data.price}€</h3>
-        <button className="card__add">+</button>
+        <button
+          className={`card__add ${buttonClicked ? "card__add--clicked" : ""}`}
+          onClick={handleClick}
+        >
+          {buttonClicked ? "✔" : "+"}
+        </button>
       </div>
       <Modal
         isOpen={modalIsOpen}

@@ -2,8 +2,10 @@ import "../style/Authentification.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { getErrorFromBackend } from "./../utils";
+import { toast } from "react-toastify";
 
-export default function Authentification(/*{ setTest }*/) {
+export default function Authentification({ setTest }) {
   const navigate = useNavigate();
   const { search } = useLocation();
   const redirectUrl = new URLSearchParams(search).get("redirect");
@@ -21,26 +23,27 @@ export default function Authentification(/*{ setTest }*/) {
     try {
       console.log(userdata);
 
-      //   const data = await axios.post(
-      //     `http://127.0.0.1:8000/register/`,
-      //     userdata
-      //   );
-      //   if (data.data.user !== undefined) {
-      //     let userInfo = {
-      //       token: data.data.token,
-      //       username: data.data.user.username,
-      //       email: data.data.user.email,
-      //       first_name: data.data.user.first_name,
-      //       last_name: data.data.user.last_name,
-      //       id: data.data.user.id,
-      //       is_superuser: data.data.user.is_superuser,
-      //     };
-      /*localStorage.setItem("userInfo", JSON.stringify(userInfo));
+      const data = await axios.post(
+        `http://localhost:5000/api/user/register`,
+        userdata
+      );
+      // console.log(data.data);
+      if (data.data.user !== undefined) {
+        let userInfo = {
+          token: data.data.token,
+          username: data.data.username,
+          email: data.data.email,
+          firstname: data.data.firstname,
+          name: data.data.name,
+          id: data.data.id,
+          is_admin: data.data.is_admin,
+        };
+        localStorage.setItem("userInfo", JSON.stringify(userInfo));
         setTest(localStorage.getItem("userInfo"));
-        navigate(redirect || "/");*/
-      //}
+        navigate(redirect || "/");
+      }
     } catch (error) {
-      console.log(error);
+      toast.error(getErrorFromBackend(error));
     }
   };
 
@@ -48,21 +51,25 @@ export default function Authentification(/*{ setTest }*/) {
     e.preventDefault();
     try {
       console.log(userdata);
-      //   const data = await axios.post(`http://127.0.0.1:8000/login/`, userdata);
-      //   let userInfo = {
-      //     token: data.data.token,
-      //     username: data.data.username,
-      //     email: data.data.email,
-      //     first_name: data.data.first_name,
-      //     last_name: data.data.last_name,
-      //     id: data.data.id,
-      //     is_superuser: data.data.is_superuser,
-      //   };
-      //localStorage.setItem("userInfo", JSON.stringify(userInfo));
-      //setTest(localStorage.getItem("userInfo"));
-      //navigate(redirect || "/");
+      const data = await axios.post(
+        `http://localhost:5000/api/user/signin/${userdata.mail}`,
+        userdata
+      );
+      // console.log(data.data);
+      let userInfo = {
+        token: data.data.token,
+        username: data.data.username,
+        mail: data.data.email,
+        firstname: data.data.firstname,
+        name: data.data.name,
+        id: data.data.id,
+        is_admin: data.data.is_admin,
+      };
+      localStorage.setItem("userInfo", JSON.stringify(userInfo));
+      setTest(localStorage.getItem("userInfo"));
+      navigate(redirect || "/");
     } catch (error) {
-      console.log(error);
+      toast.error(getErrorFromBackend(error));
     }
   };
 
@@ -91,31 +98,31 @@ export default function Authentification(/*{ setTest }*/) {
               type="text"
               name="username"
               placeholder="User name"
-              required=""
+              required={true}
               onChange={handleChange}
             />
             <input
               className="signup-input"
               type="text"
-              name="first_name"
+              name="firstname"
               placeholder="First name"
-              required=""
+              required={true}
               onChange={handleChange}
             />
             <input
               className="signup-input"
               type="text"
-              name="last_name"
+              name="name"
               placeholder="Last name"
-              required=""
+              required={true}
               onChange={handleChange}
             />
             <input
               className="signup-input"
               type="email"
-              name="email"
+              name="mail"
               placeholder="Email"
-              required=""
+              required={true}
               onChange={handleChange}
             />
             <input
@@ -123,7 +130,7 @@ export default function Authentification(/*{ setTest }*/) {
               type="password"
               name="password"
               placeholder="Password"
-              required=""
+              required={true}
               onChange={handleChange}
             />
             <button className="signup-button">Sign up</button>
@@ -137,10 +144,10 @@ export default function Authentification(/*{ setTest }*/) {
             </label>
             <input
               className="login-input"
-              type="text"
-              name="username"
-              placeholder="Username"
-              required=""
+              type="email"
+              name="mail"
+              placeholder="mail"
+              required={true}
               onChange={handleChange}
             />
             <input
@@ -148,7 +155,7 @@ export default function Authentification(/*{ setTest }*/) {
               type="password"
               name="password"
               placeholder="Password"
-              required=""
+              required={true}
               onChange={handleChange}
             />
             <button className="login-button">Login</button>
