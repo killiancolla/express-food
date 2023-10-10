@@ -34,6 +34,10 @@ app.use("/api/status", statusRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/order_status", orderStatusRouter);
 
+app.use((err, req, res, next) => {
+  res.status(500).send({ message: err.message });
+});
+
 // Lancement du server
 const port = process.env.PORT || 5000;
 app.listen(port, () => {

@@ -11,7 +11,7 @@ export default {
       const users = await User.find();
       res.json(users);
     } catch (error) {
-      res.status(500).json({ error: "Internal server error" });
+      res.status(500).json({ message: "Internal server error" });
     }
   },
 
@@ -24,11 +24,11 @@ export default {
     try {
       const user = await User.findById(id);
       if (!user) {
-        return res.status(404).json({ error: "User not found" });
+        return res.status(404).json({ message: "User not found" });
       }
       res.json(user);
     } catch (error) {
-      res.status(500).json({ error: "Internal server error" });
+      res.status(500).json({ message: "Internal server error" });
     }
   },
 
@@ -46,7 +46,7 @@ export default {
         mail: { $regex: mail, $options: "i" },
       });
       if (!users) {
-        return res.status(404).json({ error: "User not found" });
+        return res.status(404).json({ message: "User not found" });
       }
       if (bcrypt.compareSync(password, users.password)) {
         res.send({
@@ -60,7 +60,7 @@ export default {
         });
       }
     } catch (error) {
-      res.status(500).json({ error: "Internal server error" });
+      res.status(500).json({ message: "Internal server error" });
     }
   },
 
@@ -83,7 +83,7 @@ export default {
         mail: { $regex: mail, $options: "i" },
       });
       if (existUser.length > 0) {
-        return res.status(409).json({ error: "User already exists" });
+        return res.status(409).json({ message: "User already exists" });
       }
       const user = await newUser.save();
       res.send({
@@ -97,7 +97,7 @@ export default {
         token: generateToken(user),
       });
     } catch (error) {
-      res.status(500).json({ error: "Internal server error" });
+      res.status(500).json({ message: "Internal server error" });
     }
   },
 
@@ -121,7 +121,7 @@ export default {
 
       const updatedUser = await user.save();
       if (!updatedUser) {
-        return res.status(404).json({ error: "User not found" });
+        return res.status(404).json({ message: "User not found" });
       }
       res.send({
         _id: updatedUser._id,
@@ -132,8 +132,8 @@ export default {
         token: generateToken(updatedUser),
       });
     } catch (error) {
-      console.log(error);
-      res.status(500).json({ error: "Internal server error" });
+      // console.log(error);
+      res.status(500).json({ message: "Internal server error" });
     }
   },
 
@@ -146,7 +146,7 @@ export default {
       const user = await User.findByIdAndDelete(id);
       if (user) res.status(200).json({ message: "User deleted successfully" });
     } catch (error) {
-      res.status(500).json({ error: "Internal server error" });
+      res.status(500).json({ message: "Internal server error" });
     }
   },
 };

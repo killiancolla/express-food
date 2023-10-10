@@ -2,6 +2,8 @@ import "../style/Authentification.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { getErrorFromBackend } from "./../utils";
+import { toast } from "react-toastify";
 
 export default function Authentification({ setTest }) {
   const navigate = useNavigate();
@@ -37,11 +39,11 @@ export default function Authentification({ setTest }) {
           is_admin: data.data.is_admin,
         };
         localStorage.setItem("userInfo", JSON.stringify(userInfo));
-        // setTest(localStorage.getItem("userInfo"));
+        setTest(localStorage.getItem("userInfo"));
         navigate(redirect || "/");
       }
     } catch (error) {
-      console.log(error);
+      toast.error(getErrorFromBackend(error));
     }
   };
 
@@ -64,10 +66,10 @@ export default function Authentification({ setTest }) {
         is_admin: data.data.is_admin,
       };
       localStorage.setItem("userInfo", JSON.stringify(userInfo));
-      // setTest(localStorage.getItem("userInfo"));
+      setTest(localStorage.getItem("userInfo"));
       navigate(redirect || "/");
     } catch (error) {
-      console.log(error);
+      toast.error(getErrorFromBackend(error));
     }
   };
 
