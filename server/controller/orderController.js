@@ -31,6 +31,25 @@ export default {
       res.status(500).json({ error: "Internal server error" });
     }
   },
+
+  isCodeValid: async (req, res) => {
+    const { id } = req.params;
+    const code = req.body.orderCode;
+
+    try {
+      const order = await Order.findById(id);
+      if (!order) {
+        return res.status(404).json({ error: "Order not found" });
+      }
+      if (order.code !== code) {
+        return res.status(404).json({ error: "Bad code" });
+      }
+      return res.status(200).json({ success: "Good code" });
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  },
+
   /**
    * Création de l'utilisateur
    */
