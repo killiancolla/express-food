@@ -17,6 +17,23 @@ export default function Dashboard() {
   const { userInfo } = state;
   const token = userInfo.token;
 
+  // function deleteRow(id, table) {
+  //   console.log(id);
+  //   console.log(table);
+  //   const list = async () => {
+  //     const response = await axios.delete(
+  //       `http://localhost:5000/api/${table}/delete/${id}`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
+  //     setFood(response.data);
+  //   };
+  //   list();
+  // }
+
   useEffect(() => {
     const list = async () => {
       const response = await axios.get("http://localhost:5000/api/food", {
@@ -30,7 +47,6 @@ export default function Dashboard() {
   }, []);
 
   useEffect(() => {
-    console.log(token);
     const listUser = async () => {
       const response = await axios.get("http://localhost:5000/api/user/", {
         headers: {
@@ -39,7 +55,6 @@ export default function Dashboard() {
       });
       try {
         setUser(response.data);
-        console.log("intry");
       } catch (error) {
         console.log(getErrorFromBackend(error));
       }
@@ -62,7 +77,7 @@ export default function Dashboard() {
     };
     listOrder();
   }, []);
-  console.log(order);
+
   return (
     <div>
       <h1>Dashboard</h1>
@@ -100,7 +115,10 @@ export default function Dashboard() {
                     <td>{user.is_admin === 1 ? "ADMIN" : "CLIENT"}</td>
                     <td>
                       <i class="ri-edit-line"></i>
-                      <i class="ri-delete-bin-7-fill"></i>
+                      <i
+                        // onClick={deleteRow(user._id, "user")}
+                        class="ri-delete-bin-7-fill"
+                      ></i>
                     </td>
                   </tr>
                 ))}
@@ -233,22 +251,49 @@ export default function Dashboard() {
               </tr>
             </thead>
             <tbody>
-              {order.map((order, index) => (
-                <tr key={order._id}>
-                  <td>{order._id}</td>
-                  <td>{order.customer}</td>
-                  <td>{order.delivers}</td>
-                  <td>{order.status}</td>
-                  <td>{order.products}</td>
-                  <td>{order.code}</td>
-                  <td>{order.order_start}</td>
-                  <td>{order.order_end}</td>
-                  <td>
-                    <i class="ri-edit-line"></i>
-                    <i class="ri-delete-bin-7-fill"></i>
-                  </td>
-                </tr>
-              ))}
+              {order.map((order, index) => {
+                const thisCustomer = user.find((u) => u._id === order.customer);
+                const thisDeliver = user.find((u) => u._id === order.delivers);
+                console.log(thisCustomer);
+                console.log(thisDeliver);
+                return (
+                  <tr key={order._id}>
+                    <td>{order._id}</td>
+                    {thisCustomer !== undefined ? (
+                      <td title={order.customer}>{thisCustomer.username}</td>
+                    ) : (
+                      <td>Client supprimé</td>
+                    )}
+                    {thisDeliver !== undefined ? (
+                      <td title={order.delivers}>{thisDeliver.username}</td>
+                    ) : (
+                      <td>Non attribué</td>
+                    )}
+                    <td>{order.status}</td>
+                    <td>
+                      {order.products.map((product, index) => {
+                        const thisProduct = food.find(
+                          (f) => f._id === product.foodId
+                        );
+                        return (
+                          <>
+                            {thisProduct !== undefined && thisProduct.name && (
+                              <span key={index}>{thisProduct.name} </span>
+                            )}
+                          </>
+                        );
+                      })}
+                    </td>
+                    <td>{order.code}</td>
+                    <td>{order.order_start}</td>
+                    <td>{order.order_end}</td>
+                    <td>
+                      <i class="ri-edit-line"></i>
+                      <i class="ri-delete-bin-7-fill"></i>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </Table>
         </Tab>
