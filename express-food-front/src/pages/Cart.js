@@ -11,7 +11,7 @@ export default function Cart() {
 
   // Fonctions du panier
   const { state, dispatch } = useCart();
-  const { cart } = state;
+  const { cart, userInfo } = state;
 
   const addItemToCart = (item) => {
     dispatch({ type: 'ADD_FOOD', item });
@@ -23,27 +23,28 @@ export default function Cart() {
 
   const [total, setTotal] = useState(0);
 
-  // const handleOrder = async () => {
-  //   try {
-  //     const products = cart.map(item => ({
-  //       foodId: item._id,
-  //       quantity: item.nb
-  //     }));
-  //     const orderData = {
-  //       customer: "", // id utilisateur,
-  //       delivers: "",// id livreur,
-  //       status: "", // id statut,
-  //       products,
-  //       code: 80,// A generer,
-  //       order_start: new Date().toISOString(),  // Convertit en format ISO 8601
-  //     };
+  const handleOrder = async () => {
+    try {
+      const products = cart.map(item => ({
+        foodId: item._id,
+        quantity: item.nb
+      }));
+      const orderData = {
+        customer: userInfo._id, // id utilisateur
+        products,
+        code: Math.floor(Math.random() * 99 + 1).toString() // Numero aléatoire entre 1 et 99
+      };
 
-  //     const response = await axios.post('http://localhost:5000/api/user/orders', orderData);
-  //     console.log('Order created:', response.data);
-  //   } catch (error) {
-  //     console.error('Error creating order:', error);
-  //   }
-  // };
+      if(orderData.code < 10) {
+        orderData.code = "0" + orderData.code
+      }
+
+      const response = await axios.post('http://localhost:5000/api/order', orderData);
+      console.log('Order created:', response.data);
+    } catch (error) {
+      console.error('Error creating order:', error);
+    }
+  };
 
   useEffect(() => {
     let newTotal = 0;
@@ -63,7 +64,7 @@ export default function Cart() {
             <div className="glassMorph" key={index}>
               <h2 onClick={() => { console.log(state); }}>{plat.name}</h2>
               <img src={plat.image} alt={plat.name} />
-              <span>{plat.price * plat.nb}€</span>
+              <span>{plat.price}€ * {plat.nb}</span>
               <div className="input-container">
                 <input
                   value={plat.nb}
@@ -85,7 +86,7 @@ export default function Cart() {
         )}
       </div>
       <div>Total : <span>{total}€</span></div>
-      <button>Valider ma commande</button>
+      <button onClick={handleOrder}>Valider ma commande</button>
     </span>
   );
 }
