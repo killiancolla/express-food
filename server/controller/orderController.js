@@ -51,13 +51,14 @@ export default {
   },
 
   /**
-   * Création de l'utilisateur
+   * Création du plat
    */
   createOrder: async (req, res) => {
     const {
       customer,
       delivers,
       status,
+      price,
       products,
       code,
       order_start,
@@ -67,12 +68,12 @@ export default {
       customer: customer,
       delivers: delivers,
       status: status,
+      price: price,
       products: products,
       code: code,
       order_start: order_start,
       order_end: order_end,
     });
-    console.log(newOrder);
     try {
       const order = await newOrder.save();
       res.send({

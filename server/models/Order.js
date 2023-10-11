@@ -17,6 +17,10 @@ const orderSchema = new mongoose.Schema({
     default: "6523fc62641daa40634124d7",
     required: true,
   },
+  price: {
+    type: Number,
+    required: true
+  },
   products: [
     {
       foodId: {
