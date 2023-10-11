@@ -28,7 +28,6 @@ export default function NewMenu() {
 
   const create = async (e) => {
     e.preventDefault();
-    console.log(backendData);
     try {
       axios
         .post(`http://localhost:5000/api/food`, backendData, {

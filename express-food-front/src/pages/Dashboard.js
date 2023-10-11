@@ -7,6 +7,7 @@ import { useCart } from "../components/CartContext";
 import { getErrorFromBackend } from "./../utils";
 import Button from "react-bootstrap/esm/Button";
 import { Link } from "react-router-dom";
+import DataChart from "../components/Chart";
 
 export default function Dashboard() {
   const [key, setKey] = useState("home");
@@ -41,9 +42,6 @@ export default function Dashboard() {
   }
 
   function updateRow(id, table) {
-    console.log(id);
-    console.log(table);
-    console.log(`http://localhost:5000/api/${table}/delete/${id}`);
     const list = async () => {
       const response = await axios.patch(
         `http://localhost:5000/api/${table}/update/${id}`,
@@ -107,6 +105,20 @@ export default function Dashboard() {
     };
     listOrder();
   }, []);
+
+  const currentDate = new Date();
+  const last7Days = [];
+  for (let i = 0; i < 7; i++) {
+    const previousDate = new Date();
+    previousDate.setDate(currentDate.getDate() - i);
+    last7Days.push(previousDate.toISOString().slice(0, 10));
+  }
+
+  let ordersNb = [];
+  last7Days.reverse().map((day) => {
+    const nbOrder = order.filter((o) => o.order_start.startsWith(day));
+    ordersNb.push(nbOrder.length);
+  });
 
   return (
     <div>
@@ -232,7 +244,7 @@ export default function Dashboard() {
                     <td>{food.origins}</td>
                     <td>{food.description}</td>
                     <td>{food.category}</td>
-                    <td>{food.price}</td>
+                    <td>{food.price}€</td>
                     <td>N/A</td>
                     <td>
                       <i
@@ -275,7 +287,7 @@ export default function Dashboard() {
                     <td>{food.origins}</td>
                     <td>{food.description}</td>
                     <td>{food.category}</td>
-                    <td>{food.price}</td>
+                    <td>{food.price}€</td>
                     <td>N/A</td>
                     <td>
                       <i
@@ -311,8 +323,6 @@ export default function Dashboard() {
               {order.map((order, index) => {
                 const thisCustomer = user.find((u) => u._id === order.customer);
                 const thisDeliver = user.find((u) => u._id === order.delivers);
-                console.log(thisCustomer);
-                console.log(thisDeliver);
                 return (
                   <tr key={order._id}>
                     <td>{order._id}</td>
@@ -359,6 +369,9 @@ export default function Dashboard() {
               })}
             </tbody>
           </Table>
+        </Tab>
+        <Tab eventKey="stats" title="Statistiques">
+          <DataChart days={last7Days} orders={ordersNb} />
         </Tab>
       </Tabs>
     </div>
