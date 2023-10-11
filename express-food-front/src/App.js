@@ -11,6 +11,7 @@ import Authentification from "./pages/Authentification";
 import Cart from "./pages/Cart";
 import Account from "./pages/Account";
 import Delivery from "./pages/Delivery";
+import NewMenu from "./pages/newMenu";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/account" element={<Account />} />
           <Route path="/delivery" element={<Delivery />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/newMenu" element={<NewMenu />} />
         </Routes>
       </main>
     </BrowserRouter>

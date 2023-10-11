@@ -7,7 +7,7 @@ const foodRouter = express.Router();
 foodRouter.get("/", Food.getAllFood);
 foodRouter.get("/:id", Food.getFoodById);
 foodRouter.post("/", Food.createFood);
-foodRouter.patch("/:id", Food.updateFood);
-foodRouter.delete("/:id", Food.deleteFood);
+foodRouter.patch("/update/:id", isAuth, isAdmin, Food.updateFood);
+foodRouter.delete("/delete/:id", isAuth, isAdmin, Food.deleteFood);
 
 export default foodRouter;

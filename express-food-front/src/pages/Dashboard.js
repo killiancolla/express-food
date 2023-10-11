@@ -5,6 +5,8 @@ import axios from "axios";
 import Table from "react-bootstrap/Table";
 import { useCart } from "../components/CartContext";
 import { getErrorFromBackend } from "./../utils";
+import Button from "react-bootstrap/esm/Button";
+import { Link } from "react-router-dom";
 
 export default function Dashboard() {
   const [key, setKey] = useState("home");
@@ -17,22 +19,50 @@ export default function Dashboard() {
   const { userInfo } = state;
   const token = userInfo.token;
 
-  // function deleteRow(id, table) {
-  //   console.log(id);
-  //   console.log(table);
-  //   const list = async () => {
-  //     const response = await axios.delete(
-  //       `http://localhost:5000/api/${table}/delete/${id}`,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     );
-  //     setFood(response.data);
-  //   };
-  //   list();
-  // }
+  function deleteRow(id, table) {
+    const list = async () => {
+      const response = await axios.delete(
+        `http://localhost:5000/api/${table}/delete/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (table === "user") {
+        setUser(user.filter((user) => user._id !== id));
+      } else if (table === "food") {
+        setFood(food.filter((food) => food._id !== id));
+      } else if (table === "order") {
+        setOrder(order.filter((order) => order._id !== id));
+      }
+    };
+    list();
+  }
+
+  function updateRow(id, table) {
+    console.log(id);
+    console.log(table);
+    console.log(`http://localhost:5000/api/${table}/delete/${id}`);
+    const list = async () => {
+      const response = await axios.patch(
+        `http://localhost:5000/api/${table}/update/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (table === "user") {
+        setUser(user.filter((user) => user._id !== id));
+      } else if (table === "food") {
+        setFood(food.filter((food) => food._id !== id));
+      } else if (table === "order") {
+        setOrder(order.filter((order) => order._id !== id));
+      }
+    };
+    list();
+  }
 
   useEffect(() => {
     const list = async () => {
@@ -114,9 +144,12 @@ export default function Dashboard() {
                     <td>{user.mail}</td>
                     <td>{user.is_admin === 1 ? "ADMIN" : "CLIENT"}</td>
                     <td>
-                      <i class="ri-edit-line"></i>
                       <i
-                        // onClick={deleteRow(user._id, "user")}
+                        onClick={(e) => updateRow(user._id, "user")}
+                        class="ri-edit-line"
+                      ></i>
+                      <i
+                        onClick={(e) => deleteRow(user._id, "user")}
                         class="ri-delete-bin-7-fill"
                       ></i>
                     </td>
@@ -151,8 +184,14 @@ export default function Dashboard() {
                     <td>{user.mail}</td>
                     <td>{user.is_admin === 1 ? "ADMIN" : "CLIENT"}</td>
                     <td>
-                      <i class="ri-edit-line"></i>
-                      <i class="ri-delete-bin-7-fill"></i>
+                      <i
+                        onClick={(e) => updateRow(user._id, "user")}
+                        class="ri-edit-line"
+                      ></i>
+                      <i
+                        onClick={(e) => deleteRow(user._id, "user")}
+                        class="ri-delete-bin-7-fill"
+                      ></i>
                     </td>
                   </tr>
                 ))}
@@ -160,7 +199,13 @@ export default function Dashboard() {
           </Table>
         </Tab>
         <Tab eventKey="food" title="Food">
-          <h2>Plats</h2>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <h2>Plats</h2>
+
+            <Link to="/newMenu">
+              <Button variant="success">Ajouter un plat</Button>
+            </Link>
+          </div>
           <Table responsive>
             <thead>
               <tr>
@@ -190,8 +235,14 @@ export default function Dashboard() {
                     <td>{food.price}</td>
                     <td>N/A</td>
                     <td>
-                      <i class="ri-edit-line"></i>
-                      <i class="ri-delete-bin-7-fill"></i>
+                      <i
+                        onClick={(e) => updateRow(food._id, "food")}
+                        class="ri-edit-line"
+                      ></i>
+                      <i
+                        onClick={(e) => deleteRow(food._id, "food")}
+                        class="ri-delete-bin-7-fill"
+                      ></i>
                     </td>
                   </tr>
                 ))}
@@ -227,8 +278,14 @@ export default function Dashboard() {
                     <td>{food.price}</td>
                     <td>N/A</td>
                     <td>
-                      <i class="ri-edit-line"></i>
-                      <i class="ri-delete-bin-7-fill"></i>
+                      <i
+                        onClick={(e) => updateRow(food._id, "food")}
+                        class="ri-edit-line"
+                      ></i>
+                      <i
+                        onClick={(e) => deleteRow(food._id, "food")}
+                        class="ri-delete-bin-7-fill"
+                      ></i>
                     </td>
                   </tr>
                 ))}
@@ -288,8 +345,14 @@ export default function Dashboard() {
                     <td>{order.order_start}</td>
                     <td>{order.order_end}</td>
                     <td>
-                      <i class="ri-edit-line"></i>
-                      <i class="ri-delete-bin-7-fill"></i>
+                      <i
+                        onClick={(e) => updateRow(order._id, "order")}
+                        class="ri-edit-line"
+                      ></i>
+                      <i
+                        onClick={(e) => deleteRow(order._id, "order")}
+                        class="ri-delete-bin-7-fill"
+                      ></i>
                     </td>
                   </tr>
                 );
