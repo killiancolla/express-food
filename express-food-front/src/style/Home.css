@@ -1,0 +1,85 @@
+@font-face {
+    font-family: "Euclid";
+    src: url('../Euclid\ Circular\ A\ Bold.ttf');
+}
+
+#home img {
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    /* filter: blur(3px); */
+    object-fit: cover;
+}
+
+#home .contains {
+    padding: 5%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+#home .contains>h1 {
+    color: white;
+    font-family: 'Euclid';
+}
+
+#home .contains>a {
+    color: white;
+    padding: 10px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+#home .contains>a:hover {
+    background: rgba(132, 202, 216, 0.25);
+}
+
+#home .bubble {
+    text-align: center;
+    aspect-ratio: 1/1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: white;
+    padding: 26px;
+    width: 200px;
+    position: absolute;
+}
+
+@media screen and (max-width: 1050px) {
+    #home .bubble {
+        display: none;
+    }
+
+    #home .contains>h1 {
+        font-size: 2em;
+    }
+
+    #home .contains {
+        width: 80%;
+    }
+}

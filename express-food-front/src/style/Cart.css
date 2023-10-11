@@ -47,11 +47,8 @@
 }
 
 #cart .glassMorph {
-    /* margin-bottom: 10px;
-    border: 2px solid rgb(149, 149, 149);
-    border-radius: 10px; */
     display: flex;
-    /* box-shadow: 1px 1px 6px black; */
+    border-bottom: 1px solid #b2b2b2;
 }
 
 #cart .resumeCart>div {
