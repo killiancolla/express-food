@@ -8,7 +8,7 @@ userRouter.get("/", isAuth, isAdmin, User.getAllUsers);
 userRouter.get("/:id", isAuth, isAdmin, User.getUserById);
 userRouter.post("/signin/:mail", User.getUserByMail);
 userRouter.post("/register", User.createUser);
-userRouter.patch("/update/:id", isAuth, isAdmin, User.updateUser);
+userRouter.patch("/update/:id", isAuth, /*isAdmin,*/ User.updateUser);
 userRouter.delete("/delete/:id", isAuth, isAdmin, User.deleteUser);
 
 export default userRouter;

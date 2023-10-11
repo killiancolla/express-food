@@ -24,8 +24,6 @@ export default function Authentification() {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      console.log(userdata);
-
       const data = await axios.post(
         `http://localhost:5000/api/user/register`,
         userdata
@@ -46,7 +44,9 @@ export default function Authentification() {
         userdata
       );
       const userId = data.data._id;
-      const deliverer = await axios.get(`http://localhost:5000/api/deliverer/user/${userId}`);
+      const deliverer = await axios.get(
+        `http://localhost:5000/api/deliverer/user/${userId}`
+      );
       let isDeliverer = 0;
       if (deliverer.data.length > 0) {
         isDeliverer = 1;
