@@ -107,7 +107,6 @@ img {
 /* Misc */
 .container {
   max-width: 1024px;
-  margin-inline: 1.5rem;
 }
 
 .grid {

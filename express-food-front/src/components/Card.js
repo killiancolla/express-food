@@ -59,7 +59,7 @@ export default function Card({ data }) {
             <h2>{data.name}</h2>
             <p>{data.description}</p>
           </div>
-          <h3 className="card__price">{data.price}€</h3>
+          <h3 className="card__price" onClick={openModal}>{data.price} €</h3>
           <button
             className={`card__add ${buttonClicked ? "card__add--clicked" : ""}`}
             onClick={handleClick}

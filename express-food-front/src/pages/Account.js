@@ -3,31 +3,31 @@ import "../style/Account.css";
 export default function Account() {
   return (
     <span id="account">
-      <section class="my-5">
-        <div class="container">
-          <div class="main-body">
-            <div class="row">
-              <div class="col-lg-4">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="d-flex flex-column align-items-center text-center">
+      <section className="my-5">
+        <div className="container">
+          <div className="main-body">
+            <div className="row">
+              <div className="col-lg-4">
+                <div className="card">
+                  <div className="card-body">
+                    <div className="d-flex flex-column align-items-center text-center">
                       <img
                         src="https://bootdey.com/img/Content/avatar/avatar6.png"
                         alt="Admin"
-                        class="rounded-circle p-1 bg-warning"
+                        className="rounded-circle p-1 bg-warning"
                         width="110"
                       />
-                      <div class="mt-3">
+                      <div className="mt-3">
                         <h4>
                           {"Prénom"} {"Nom"}
                         </h4>
-                        <p class="text-secondary mb-1">{"Adresse mail"}</p>
-                        <p class="text-muted font-size-sm">
+                        <p className="text-secondary mb-1">{"Adresse mail"}</p>
+                        <p className="text-muted font-size-sm">
                           {"Adresse par défaut"}
                         </p>
                       </div>
                     </div>
-                    <div class="list-group list-group-flush text-center mt-4">
+                    <div className="list-group list-group-flush text-center mt-4">
                       <Link
                         to="#"
                         className="list-group-item list-group-item-action border-0"
@@ -35,13 +35,13 @@ export default function Account() {
                         Vos informations
                       </Link>
                       <Link
-                        href="#"
+                        to="#"
                         className="list-group-item list-group-item-action border-0 active"
                       >
-                        Vos commandes
+                        Votre commande
                       </Link>
                       <Link
-                        href="#"
+                        to="#"
                         className="list-group-item list-group-item-action border-0"
                       >
                         Vos adresses
@@ -50,28 +50,44 @@ export default function Account() {
                   </div>
                 </div>
               </div>
-              <div class="col-lg-8">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="top-status">
-                      <h5>Historique de commande</h5>
-                      <ul>
-                        <li class="active">
+              <div className="col-lg-8">
+                <div className="card">
+                  <div className="card-body">
+                    <div className="top-status">
+                      <h5>Suivi de commande</h5>
+                      <ul className="timeline">
+                        <li className="active">
                           <img alt="svg" src="order.svg" />
-                          <span>En cours</span>
+                        </li>
+                        <li className="active">
+                          <img alt="svg" src="order.svg" />
+                        </li>
+                        <li className="active">
+                          <img alt="svg" src="order.svg" />
+                        </li>
+                      </ul>
+                      <ul className="timeline-text">
+                        <li>
+                          En cours de préparation
+                        </li>
+                        <li>
+                          En cours de livraison
+                        </li>
+                        <li>
+                          Livrée
                         </li>
                       </ul>
                       {"Code de validation"}
                     </div>
                   </div>
                 </div>
-                <div class="card mt-4">
-                  <div class="card-body p-0 table-responsive">
-                    <h4 class="p-3 mb-0">Détails de commande</h4>
-                    <table class="table mb-0">
+                <div className="card mt-4">
+                  <div className="card-body p-0 table-responsive">
+                    <h4 className="p-3 mb-0">Détails de commande</h4>
+                    <table className="table mb-0">
                       <thead>
                         <tr>
-                          <th scope="col" colspan="2">
+                          <th scope="col" colSpan="2">
                             Plats/Desserts
                           </th>
                           <th scope="col">Quantité</th>
@@ -95,61 +111,36 @@ export default function Account() {
                             <strong>13 €</strong>
                           </td>
                           <td>
-                            <span class="badge badge-warning">PRÉPARATION</span>
+                            <span className="badge badge-warning">PRÉPARATION</span>
                           </td>
-                          {/* <td><span class="badge badge-warning">EN ROUTE</span></td> 
-                                            <td><span class="badge badge-warning">LIVRÉE</span></td>  */}
+                          {/* <td><span className="badge badge-warning">EN ROUTE</span></td> */}
+                          {/* <td><span className="badge badge-success">LIVRÉE</span></td> */}
                         </tr>
                         <tr>
-                          <th colspan="2">
+                          <th colSpan="2">
                             <span>Statut :</span>
-                            <span class="badge badge-success">PAYÉ</span>
+                            <span className="badge badge-success status-badge">PAYÉ</span>
                           </th>
                           <td>
-                            <span class="text-muted">
+                            <span className="text-muted">
                               Prix de votre commande :
                             </span>
                             <br />
                             <strong>13,00 €</strong>
                           </td>
                           <td>
-                            <span class="text-muted">Frais de livraison :</span>
+                            <span className="text-muted">Frais de livraison :</span>
                             <br />
                             <strong>2,00 €</strong>
                           </td>
                           <td>
-                            <span class="text-muted">Prix total :</span>
+                            <span className="text-muted">Prix total :</span>
                             <br />
                             <strong>15,00 €</strong>
                           </td>
                         </tr>
                       </tbody>
                     </table>
-                  </div>
-                </div>
-                <div class="card mt-4">
-                  <div class="card-body">
-                    <h4>Timeline</h4>
-                    <ul class="timeline">
-                      <li class="active">
-                        <h6>En cours de préparation</h6>
-                        <p class="mb-0 text-muted">
-                          Vos plats sont en cours de préparation.
-                        </p>
-                      </li>
-                      <li>
-                        <h6>En cours de livraison</h6>
-                        <p class="mb-0 text-muted">
-                          Notre meilleur livreur est route !
-                        </p>
-                      </li>
-                      <li>
-                        <h6>Commande livrée</h6>
-                        <p class="mb-0 text-muted">
-                          Votre repas vous a été livré.
-                        </p>
-                      </li>
-                    </ul>
                   </div>
                 </div>
               </div>
