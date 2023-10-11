@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import React, { createContext, useContext, useReducer, useEffect } from "react";
 
 const initialState = {
   cart: localStorage.getItem("cart")
@@ -6,22 +6,23 @@ const initialState = {
     : [],
   userInfo: localStorage.getItem("userInfo")
     ? JSON.parse(localStorage.getItem("userInfo"))
-    : null
+    : null,
+  deliveryAddress: localStorage.getItem("deliveryAddress")
+    ? JSON.parse(localStorage.getItem("deliveryAddress"))
+    : {},
 };
 
 const CartContext = createContext();
 
 const cartReducer = (state, action) => {
   switch (action.type) {
-    case 'ADD_FOOD':
-      const idExist = state.cart.some(item => item._id == action.item._id);
+    case "ADD_FOOD":
+      const idExist = state.cart.some((item) => item._id == action.item._id);
       if (idExist) {
         return {
           ...state,
-          cart: state.cart.map(item =>
-            item._id === action.item._id
-              ? { ...item, nb: item.nb + 1 }
-              : item
+          cart: state.cart.map((item) =>
+            item._id === action.item._id ? { ...item, nb: item.nb + 1 } : item
           ),
         };
       } else {
@@ -31,27 +32,28 @@ const cartReducer = (state, action) => {
         };
       }
 
-    case 'UPDATE_NB':
+    case "UPDATE_NB":
       if (action.nb === 0) {
         return {
           ...state,
-          cart: state.cart.filter(item => item._id !== action.id),
+          cart: state.cart.filter((item) => item._id !== action.id),
         };
       } else {
         return {
           ...state,
-          cart: state.cart.map(item =>
-            item._id === action.id
-              ? { ...item, nb: action.nb }
-              : item
+          cart: state.cart.map((item) =>
+            item._id === action.id ? { ...item, nb: action.nb } : item
           ),
         };
       }
 
-    case 'REMOVE_FOOD':
-      return { ...state, cart: state.cart.filter(item => item._id !== action.id) };
+    case "REMOVE_FOOD":
+      return {
+        ...state,
+        cart: state.cart.filter((item) => item._id !== action.id),
+      };
 
-    case 'CLEAR_CART':
+    case "CLEAR_CART":
       return { ...state, cart: [] };
 
     case "USER_SIGNIN":
@@ -61,6 +63,11 @@ const cartReducer = (state, action) => {
       return {
         ...state,
         userInfo: null,
+      };
+    case "SAVE_DELIVERY_ADDRESS":
+      return {
+        ...state,
+        cart: { ...state, deliveryAddress: action.payload },
       };
 
     default:
@@ -72,7 +79,7 @@ export const CartProvider = ({ children }) => {
   const [state, dispatch] = useReducer(cartReducer, initialState);
 
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(state.cart));
+    localStorage.setItem("cart", JSON.stringify(state.cart));
   }, [state]);
 
   return (
@@ -85,7 +92,7 @@ export const CartProvider = ({ children }) => {
 export const useCart = () => {
   const context = useContext(CartContext);
   if (!context) {
-    throw new Error('useCart must be used within a CartProvider');
+    throw new Error("useCart must be used within a CartProvider");
   }
   return context;
 };

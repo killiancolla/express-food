@@ -31,6 +31,7 @@ export default function Cart() {
       }));
       const orderData = {
         customer: userInfo._id, // id utilisateur
+        price: (Math.round((total + fdp) * 100) / 100),
         products,
         code: Math.floor(Math.random() * 99 + 1).toString() // Numero aléatoire entre 1 et 99
       };

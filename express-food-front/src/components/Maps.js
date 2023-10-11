@@ -2,8 +2,35 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { Icon, divIcon, point } from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { useState, useEffect } from 'react';
 
 export default function Maps({ destination }) {
+
+  const [error, setError] = useState(null);
+  const [position, setPosition] = useState({
+    latitude: null,
+    longitude: null,
+  });
+
+  useEffect(() => {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setPosition({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
+        },
+        (error) => {
+          setError(error.message);
+        }
+      );
+    } else {
+      setError('Géolocalisation non disponible');
+    }
+  }, []);
+
+
   const markers = [
     {
       geocode: [48.8486096, 2.3856721],
@@ -12,7 +39,12 @@ export default function Maps({ destination }) {
     {
       geocode: [destination.latitude, destination.longitude],
       popUp: "Client"
+    },
+    {
+      geocode: [position.latitude ?? 0, position.longitude ?? 0],
+      popUp: "Livreur"
     }
+
   ];
 
   const customIcon = new Icon({
@@ -22,6 +54,11 @@ export default function Maps({ destination }) {
 
   const customStartIcon = new Icon({
     iconUrl: "marker-start.png",
+    iconSize: [38, 38]
+  });
+
+  const customBikeIcon = new Icon({
+    iconUrl: "marker-bike.png",
     iconSize: [38, 38]
   });
 
@@ -51,7 +88,7 @@ export default function Maps({ destination }) {
       />
       <MarkerClusterGroup chunkedLoading iconCreateFunction={createClusterCustomIcon}>
         {markers.map((marker) => (
-          <Marker key={marker.geocode} position={marker.geocode} icon={marker.popUp === "ExpressFood" ? customStartIcon : customIcon}>
+          <Marker key={marker.geocode} position={marker.geocode} icon={marker.popUp === "ExpressFood" ? customStartIcon : marker.popUp === "Client" ? customIcon : customBikeIcon}>
             <Popup>{marker.popUp}</Popup>
           </Marker>
         ))}

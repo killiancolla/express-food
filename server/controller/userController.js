@@ -125,10 +125,11 @@ export default {
       }
       res.send({
         _id: updatedUser._id,
+        username: updatedUser.username,
         name: updatedUser.name,
         firstname: updatedUser.firstname,
         mail: updatedUser.mail,
-        password: updatedUser.password,
+        // password: updatedUser.password,
         token: generateToken(updatedUser),
       });
     } catch (error) {
