@@ -9,11 +9,12 @@ const orderSchema = new mongoose.Schema({
   delivers: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'deliverers',
-    required: true,
+    required: false,
   },
   status: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'orderstatus',
+    default: "6523fc62641daa40634124d7",
     required: true,
   },
   products: [
@@ -35,6 +36,7 @@ const orderSchema = new mongoose.Schema({
   },
   order_start: {
     type: Date,
+    default: Date.now,
     required: true,
   },
   order_end: {
