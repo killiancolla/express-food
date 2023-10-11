@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import axios from "axios";
 import Table from "react-bootstrap/Table";
+import { useCart } from "../components/CartContext";
+import { getErrorFromBackend } from "./../utils";
 
 export default function Dashboard() {
   const [key, setKey] = useState("home");
@@ -11,32 +13,56 @@ export default function Dashboard() {
   const [order, setOrder] = useState([]);
   const [searchName, setSearchName] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const { state, dispatch } = useCart();
+  const { userInfo } = state;
+  const token = userInfo.token;
 
   useEffect(() => {
     const list = async () => {
-      const response = await axios.get("http://localhost:5000/api/food");
+      const response = await axios.get("http://localhost:5000/api/food", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setFood(response.data);
     };
     list();
   }, []);
 
   useEffect(() => {
+    console.log(token);
     const listUser = async () => {
-      const response = await axios.get("http://localhost:5000/api/user");
-      setUser(response.data);
+      const response = await axios.get("http://localhost:5000/api/user/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      try {
+        setUser(response.data);
+        console.log("intry");
+      } catch (error) {
+        console.log(getErrorFromBackend(error));
+      }
     };
     listUser();
   }, []);
 
   useEffect(() => {
     const listOrder = async () => {
-      const response = await axios.get("http://localhost:5000/api/order");
-      setOrder(response.data);
+      const response = await axios.get("http://localhost:5000/api/order", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      try {
+        setOrder(response.data);
+      } catch (error) {
+        console.log(getErrorFromBackend(error));
+      }
     };
     listOrder();
   }, []);
-
-  console.log(food);
+  console.log(order);
   return (
     <div>
       <h1>Dashboard</h1>
@@ -73,8 +99,8 @@ export default function Dashboard() {
                     <td>{user.mail}</td>
                     <td>{user.is_admin === 1 ? "ADMIN" : "CLIENT"}</td>
                     <td>
-                      <button>Modifier</button>
-                      <button>Supprimer</button>
+                      <i class="ri-edit-line"></i>
+                      <i class="ri-delete-bin-7-fill"></i>
                     </td>
                   </tr>
                 ))}
@@ -107,8 +133,8 @@ export default function Dashboard() {
                     <td>{user.mail}</td>
                     <td>{user.is_admin === 1 ? "ADMIN" : "CLIENT"}</td>
                     <td>
-                      <button>Modifier</button>
-                      <button>Supprimer</button>
+                      <i class="ri-edit-line"></i>
+                      <i class="ri-delete-bin-7-fill"></i>
                     </td>
                   </tr>
                 ))}
@@ -146,8 +172,8 @@ export default function Dashboard() {
                     <td>{food.price}</td>
                     <td>N/A</td>
                     <td>
-                      <button>Modifier</button>
-                      <button>Supprimer</button>
+                      <i class="ri-edit-line"></i>
+                      <i class="ri-delete-bin-7-fill"></i>
                     </td>
                   </tr>
                 ))}
@@ -183,8 +209,8 @@ export default function Dashboard() {
                     <td>{food.price}</td>
                     <td>N/A</td>
                     <td>
-                      <button>Modifier</button>
-                      <button>Supprimer</button>
+                      <i class="ri-edit-line"></i>
+                      <i class="ri-delete-bin-7-fill"></i>
                     </td>
                   </tr>
                 ))}
@@ -218,8 +244,8 @@ export default function Dashboard() {
                   <td>{order.order_start}</td>
                   <td>{order.order_end}</td>
                   <td>
-                    <button>Modifier</button>
-                    <button>Supprimer</button>
+                    <i class="ri-edit-line"></i>
+                    <i class="ri-delete-bin-7-fill"></i>
                   </td>
                 </tr>
               ))}
