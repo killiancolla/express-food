@@ -1,12 +1,12 @@
 import "../style/Authentification.css";
 import axios from "axios";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getErrorFromBackend } from "./../utils";
 import { toast } from "react-toastify";
 import { useCart } from "../components/CartContext";
 
-export default function Authentification(/*{ setTest }*/) {
+export default function Authentification() {
   const navigate = useNavigate();
   const { search } = useLocation();
   const redirectUrl = new URLSearchParams(search).get("redirect");
@@ -41,11 +41,17 @@ export default function Authentification(/*{ setTest }*/) {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      console.log(userdata);
       const data = await axios.post(
         `http://localhost:5000/api/user/signin/${userdata.mail}`,
         userdata
       );
+      const userId = data.data._id;
+      const deliverer = await axios.get(`http://localhost:5000/api/deliverer/user/${userId}`);
+      let isDeliverer = 0;
+      if (deliverer.data.length > 0) {
+        isDeliverer = 1;
+      }
+      data.data = { ...data.data, is_deliverer: isDeliverer };
       dispatch({ type: "USER_SIGNIN", payload: data.data });
       localStorage.setItem("userInfo", JSON.stringify(data.data));
       navigate(redirect || "/");
@@ -72,13 +78,13 @@ export default function Authentification(/*{ setTest }*/) {
         <div className="signup">
           <form onSubmit={handleSignup}>
             <label className="signup-label" htmlFor="chk" aria-hidden="true">
-              Sign up
+              Inscription
             </label>
             <input
               className="signup-input"
               type="text"
               name="username"
-              placeholder="User name"
+              placeholder="Pseudo"
               required={true}
               onChange={handleChange}
             />
@@ -86,7 +92,7 @@ export default function Authentification(/*{ setTest }*/) {
               className="signup-input"
               type="text"
               name="firstname"
-              placeholder="First name"
+              placeholder="Prénom"
               required={true}
               onChange={handleChange}
             />
@@ -94,7 +100,7 @@ export default function Authentification(/*{ setTest }*/) {
               className="signup-input"
               type="text"
               name="name"
-              placeholder="Last name"
+              placeholder="Nom de famille"
               required={true}
               onChange={handleChange}
             />
@@ -110,24 +116,24 @@ export default function Authentification(/*{ setTest }*/) {
               className="signup-input"
               type="password"
               name="password"
-              placeholder="Password"
+              placeholder="Mot de passe"
               required={true}
               onChange={handleChange}
             />
-            <button className="signup-button">Sign up</button>
+            <button className="signup-button">Inscription</button>
           </form>
         </div>
 
         <div className="login">
           <form onSubmit={handleLogin}>
             <label className="login-label" htmlFor="chk" aria-hidden="true">
-              Login
+              Connexion
             </label>
             <input
               className="login-input"
               type="email"
               name="mail"
-              placeholder="mail"
+              placeholder="Email"
               required={true}
               onChange={handleChange}
             />
@@ -135,11 +141,11 @@ export default function Authentification(/*{ setTest }*/) {
               className="login-input"
               type="password"
               name="password"
-              placeholder="Password"
+              placeholder="Mot de passe"
               required={true}
               onChange={handleChange}
             />
-            <button className="login-button">Login</button>
+            <button className="login-button">Connexion</button>
           </form>
         </div>
       </div>

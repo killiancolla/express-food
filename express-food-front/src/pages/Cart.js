@@ -85,7 +85,7 @@ export default function Cart() {
                     min={1}
                     type="number"
                     onChange={(e) => {
-                      if (e.target.value >= 1) {
+                      if (e.target.value >= 1 && e.target.value < 1000) {
                         const nb = parseInt(e.target.value, 10);
                         dispatch({ type: 'UPDATE_NB', id: plat._id, nb });
                       }

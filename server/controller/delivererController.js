@@ -34,13 +34,13 @@ export default {
    * Récupération du livreur selon l'id passé dans l'url
    */
   getDelivererByUserId: async (req, res) => {
-    const { user_id } = req.params;
+    const { id } = req.params;
     try {
-      const deliverer = await Deliverer.find({ user_id: user_id });
+      const deliverer = await Deliverer.find({ user_id: id });
       if (!deliverer) {
         return res.status(404).json({ error: "User not found" });
       }
-      res.json(user);
+      res.json(deliverer);
     } catch (error) {
       res.status(500).json({ error: "Internal server error" });
     }

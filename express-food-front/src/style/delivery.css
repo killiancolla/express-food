@@ -1,0 +1,41 @@
+#delivery {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+.leaflet-container {
+  height: calc(100dvh - 5.5rem);
+  width: 80%;
+  border-radius: 2rem;
+}
+
+.cluster-icon {
+  background-color: #333;
+  height: 2em;
+  width: 2em;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  box-shadow: 0 0 0px 5px #fff;
+}
+
+#delivery .form-confirm {
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (min-width: 960px) {
+  #delivery .form-confirm {
+    display: initial;
+    width: 10%;
+  }
+
+  #delivery .input-confirm {
+    max-width: 96px;
+  }
+}
