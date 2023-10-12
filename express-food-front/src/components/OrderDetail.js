@@ -1,4 +1,4 @@
-export default function OrderDetail() {
+export default function OrderDetail({ order }) {
   return (
     <div className="card-body p-0 table-responsive">
       <h4 className="p-3 mb-0">Détails de commande</h4>
@@ -10,28 +10,25 @@ export default function OrderDetail() {
             </th>
             <th scope="col">Quantité</th>
             <th scope="col">Montant</th>
-            <th scope="col">Statut</th>
+            {/* <th scope="col">Statut</th> */}
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th>
-              {/* <!-- Image du produit --> */}
-              <img
-                src="https://bootdey.com/img/Content/avatar/avatar6.png"
-                alt="product"
-                width="80"
-              />
-            </th>
-            <td>Salade de fruit - Les fruits</td>
-            <td>6,50 € x 2</td>
-            <td>
-              <strong>13 €</strong>
-            </td>
-            <td>
-              <span className="badge badge-warning">PRÉPARATION</span>
-            </td>
-          </tr>
+          {order.products.map((product) => (
+            <tr id={product._id}>
+              <th>
+                <img src={product.foodImage} alt="product" width="80" />
+              </th>
+              <td>{product.foodName}</td>
+              <td>
+                {product.foodPrice} € x {product.foodQuantity}
+              </td>
+              <td>
+                <strong>{product.foodPrice * product.foodQuantity} €</strong>
+              </td>
+            </tr>
+          ))}
+
           <tr>
             <th colSpan="2">
               <span>Statut :</span>
@@ -40,17 +37,22 @@ export default function OrderDetail() {
             <td>
               <span className="text-muted">Prix de votre commande :</span>
               <br />
-              <strong>13,00 €</strong>
+              <strong>{order.orderPrice} €</strong>
             </td>
             <td>
               <span className="text-muted">Frais de livraison :</span>
               <br />
-              <strong>2,00 €</strong>
+              <strong>{order.orderPrice > 19.99 ? 0.0 : 2.0} €</strong>
             </td>
             <td>
               <span className="text-muted">Prix total :</span>
               <br />
-              <strong>15,00 €</strong>
+              <strong>
+                {order.orderPrice > 19.99
+                  ? order.orderPrice
+                  : order.orderPrice + 2.0}{" "}
+                €
+              </strong>
             </td>
           </tr>
         </tbody>

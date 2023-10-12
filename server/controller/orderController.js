@@ -1,8 +1,28 @@
 import Order from "../models/Order.js";
-import { generateToken } from "./../auth/authentification.js";
-import bcrypt from "bcryptjs";
+// import User from "../models/User.js";
+// import OrderStatus from "../models/OrderStatus.js";
+// import Food from "../models/Food.js";
+// import Deliverer from "../models/Deliverers.js";
+// import Status from "../models/Status.js";
 
 export default {
+  /**
+   * Recupere la commande de l'utilisateur
+   */
+  getOrderByUserId: async (req, res) => {
+    const { id } = req.params;
+
+    try {
+      const order = await Order.find({ customer: id });
+      if (!order) {
+        return res.status(404).json({ error: "Order not found" });
+      }
+      res.json(order);
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  },
+
   /**
    * Récuperation de toutes les commandes
    */
