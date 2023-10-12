@@ -1,11 +1,10 @@
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { Icon, divIcon, point } from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 export default function Maps({ destination }) {
-
   const [error, setError] = useState(null);
   const [position, setPosition] = useState({
     latitude: null,
@@ -13,7 +12,7 @@ export default function Maps({ destination }) {
   });
 
   useEffect(() => {
-    if ('geolocation' in navigator) {
+    if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           setPosition({
@@ -26,40 +25,38 @@ export default function Maps({ destination }) {
         }
       );
     } else {
-      setError('Géolocalisation non disponible');
+      setError("Géolocalisation non disponible");
     }
   }, []);
-
 
   const markers = [
     {
       geocode: [48.8486096, 2.3856721],
-      popUp: "ExpressFood"
+      popUp: "ExpressFood",
     },
     {
       geocode: [destination.latitude, destination.longitude],
-      popUp: "Client"
+      popUp: "Client",
     },
     {
       geocode: [position.latitude ?? 0, position.longitude ?? 0],
-      popUp: "Livreur"
-    }
-
+      popUp: "Livreur",
+    },
   ];
 
   const customIcon = new Icon({
     iconUrl: "marker-end.png",
-    iconSize: [38, 38]
+    iconSize: [38, 38],
   });
 
   const customStartIcon = new Icon({
     iconUrl: "marker-start.png",
-    iconSize: [38, 38]
+    iconSize: [38, 38],
   });
 
   const customBikeIcon = new Icon({
     iconUrl: "marker-bike.png",
-    iconSize: [38, 38]
+    iconSize: [38, 38],
   });
 
   const centerLatitude = (markers[0].geocode[0] + markers[1].geocode[0]) / 2;
@@ -68,9 +65,9 @@ export default function Maps({ destination }) {
 
   const createClusterCustomIcon = (cluster) => {
     return new divIcon({
-      html: `<span class="cluster-icon">${cluster.getChildCount()}</span>`,
+      html: `<span className="cluster-icon">${cluster.getChildCount()}</span>`,
       className: "custom-marker-cluster",
-      iconSize: point(33, 33, true)
+      iconSize: point(33, 33, true),
     });
   };
 
@@ -86,9 +83,22 @@ export default function Maps({ destination }) {
         maxZoom={20}
         subdomains={["mt0", "mt1", "mt2", "mt3"]}
       />
-      <MarkerClusterGroup chunkedLoading iconCreateFunction={createClusterCustomIcon}>
+      <MarkerClusterGroup
+        chunkedLoading
+        iconCreateFunction={createClusterCustomIcon}
+      >
         {markers.map((marker) => (
-          <Marker key={marker.geocode} position={marker.geocode} icon={marker.popUp === "ExpressFood" ? customStartIcon : marker.popUp === "Client" ? customIcon : customBikeIcon}>
+          <Marker
+            key={marker.geocode}
+            position={marker.geocode}
+            icon={
+              marker.popUp === "ExpressFood"
+                ? customStartIcon
+                : marker.popUp === "Client"
+                ? customIcon
+                : customBikeIcon
+            }
+          >
             <Popup>{marker.popUp}</Popup>
           </Marker>
         ))}

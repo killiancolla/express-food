@@ -9,6 +9,7 @@ import Button from "react-bootstrap/esm/Button";
 import { Link } from "react-router-dom";
 import DataChart from "../components/ChartNbOrder";
 import ProfitChart from "../components/ChartProfitOrder";
+import ChartMenu from "../components/ChartMenu";
 
 export default function Dashboard() {
   const [key, setKey] = useState("home");
@@ -24,6 +25,8 @@ export default function Dashboard() {
   const [last7Days, setLast7Days] = useState([]);
   const [ordersNb, setOrdersNb] = useState([]);
   const [totalOrders, setTotalOrders] = useState([]);
+  const [nbPlats, setNbPlat] = useState(0);
+  const [nbDessert, setNbDessert] = useState(0);
 
   function deleteRow(id, table) {
     const list = async () => {
@@ -110,7 +113,7 @@ export default function Dashboard() {
     };
     listDeliver();
   }, []);
-  console.log(deliver);
+
   useEffect(() => {
     const listOrder = async () => {
       const response = await axios.get("http://localhost:5000/api/order", {
@@ -132,7 +135,18 @@ export default function Dashboard() {
     const ordersNbArray = [];
     const currentDate = new Date();
     const totalOrders = [];
+    let plat = 0;
+    let dessert = 0;
 
+    const foodOrdered = order.map((o) => o.products);
+    foodOrdered.map((f) => {
+      f.map((fo) => {
+        const thisFood = food.find((food) => food._id === fo.foodId);
+        thisFood.is_dessert === 1
+          ? (dessert += fo.quantity)
+          : (plat += fo.quantity);
+      });
+    });
     for (let i = 0; i < 7; i++) {
       const previousDate = new Date();
       previousDate.setDate(currentDate.getDate() - i);
@@ -152,6 +166,8 @@ export default function Dashboard() {
     setLast7Days(last7DaysArray);
     setOrdersNb(ordersNbArray);
     setTotalOrders(totalOrders);
+    setNbPlat(plat);
+    setNbDessert(dessert);
   }, [order]);
 
   return (
@@ -192,11 +208,11 @@ export default function Dashboard() {
                     <td>
                       <i
                         onClick={(e) => updateRow(user._id, "user")}
-                        class="ri-edit-line"
+                        className="ri-edit-line"
                       ></i>
                       <i
                         onClick={(e) => deleteRow(user._id, "user")}
-                        class="ri-delete-bin-7-fill"
+                        className="ri-delete-bin-7-fill"
                       ></i>
                     </td>
                   </tr>
@@ -222,10 +238,7 @@ export default function Dashboard() {
                 return (
                   <tr key={d._id}>
                     <td>{d._id}</td>
-                    <td>
-                      <img src="" />
-                      {thisDeliver.name}
-                    </td>
+                    <td>{thisDeliver.name}</td>
                     <td>{thisDeliver.firstname}</td>
                     <td>{thisDeliver.mail}</td>
                     <td>
@@ -238,11 +251,11 @@ export default function Dashboard() {
                     <td>
                       <i
                         onClick={(e) => updateRow(user._id, "user")}
-                        class="ri-edit-line"
+                        className="ri-edit-line"
                       ></i>
                       <i
                         onClick={(e) => deleteRow(user._id, "user")}
-                        class="ri-delete-bin-7-fill"
+                        className="ri-delete-bin-7-fill"
                       ></i>
                     </td>
                   </tr>
@@ -290,11 +303,11 @@ export default function Dashboard() {
                     <td>
                       <i
                         onClick={(e) => updateRow(food._id, "food")}
-                        class="ri-edit-line"
+                        className="ri-edit-line"
                       ></i>
                       <i
                         onClick={(e) => deleteRow(food._id, "food")}
-                        class="ri-delete-bin-7-fill"
+                        className="ri-delete-bin-7-fill"
                       ></i>
                     </td>
                   </tr>
@@ -333,11 +346,11 @@ export default function Dashboard() {
                     <td>
                       <i
                         onClick={(e) => updateRow(food._id, "food")}
-                        class="ri-edit-line"
+                        className="ri-edit-line"
                       ></i>
                       <i
                         onClick={(e) => deleteRow(food._id, "food")}
-                        class="ri-delete-bin-7-fill"
+                        className="ri-delete-bin-7-fill"
                       ></i>
                     </td>
                   </tr>
@@ -406,7 +419,7 @@ export default function Dashboard() {
                     <td>
                       <i
                         onClick={(e) => deleteRow(order._id, "order")}
-                        class="ri-delete-bin-7-fill"
+                        className="ri-delete-bin-7-fill"
                       ></i>
                     </td>
                   </tr>
@@ -419,6 +432,7 @@ export default function Dashboard() {
           <div style={{ display: "flex" }}>
             <DataChart days={last7Days} orders={ordersNb} />
             <ProfitChart days={last7Days} orders={totalOrders} />
+            <ChartMenu plat={nbPlats} dessert={nbDessert} />
           </div>
         </Tab>
       </Tabs>

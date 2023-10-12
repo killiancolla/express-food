@@ -3,12 +3,10 @@ import Chart from "chart.js/auto";
 
 export default function ProfitChart({ days, orders }) {
   const chartRef = useRef(null);
-  const chartInstance = useRef(null); // Référence pour stocker l'instance du graphique
+  const chartInstance = useRef(null);
 
   useEffect(() => {
-    // Vérifiez si le graphique existe déjà
     if (chartInstance.current) {
-      // Si le graphique existe, détruisez-le
       chartInstance.current.destroy();
     }
 
