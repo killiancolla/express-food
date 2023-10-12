@@ -76,7 +76,8 @@ export default function Cart() {
       }
     });
     setTotal(Math.round(newTotal * 100) / 100);
-    if (newTotal >= 19) {
+
+    if (newTotal >= 19.99) {
       setFdp(0);
     } else if (newTotal == 0) {
       setFdp(0);

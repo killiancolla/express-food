@@ -15,7 +15,7 @@ export default function UserInfos({ userInfo, dispatch, deliveryAddress }) {
   const navigate = useNavigate();
   const { search } = useLocation();
   const redirectUrl = new URLSearchParams(search).get("redirect");
-  const redirect = redirectUrl ? redirectUrl : "/";
+  const redirect = redirectUrl ? redirectUrl : "/account";
 
   const test = async (values) => {
     const updateData = {
@@ -45,7 +45,7 @@ export default function UserInfos({ userInfo, dispatch, deliveryAddress }) {
       dispatch({ type: "SAVE_DELIVERY_ADDRESS", payload: local });
       localStorage.setItem("deliveryAddress", JSON.stringify(local));
       toast.success("Information mis à jour");
-      navigate(redirect || "/");
+      navigate(redirect || "/account");
     } catch (error) {
       toast.error(getErrorFromBackend(error));
     }
