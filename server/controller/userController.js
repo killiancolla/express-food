@@ -40,7 +40,6 @@ export default {
   getUserByMail: async (req, res) => {
     const { mail } = req.params;
     const { password } = req.body;
-    // console.log(mail, req.body.password);
     try {
       const users = await User.findOne({
         mail: { $regex: mail, $options: "i" },
@@ -69,7 +68,6 @@ export default {
    */
   createUser: async (req, res) => {
     const { name, firstname, mail, password, username } = req.body;
-    console.log(req.body);
     const newUser = new User({
       name: name,
       firstname: firstname,
@@ -131,11 +129,9 @@ export default {
         firstname: updatedUser.firstname,
         mail: updatedUser.mail,
         is_admin: updatedUser.is_admin,
-        // password: updatedUser.password,
         token: generateToken(updatedUser),
       });
     } catch (error) {
-      // console.log(error);
       res.status(500).json({ message: "Internal server error" });
     }
   },

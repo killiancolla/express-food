@@ -4,7 +4,6 @@ import "../style/header.css";
 import "remixicon/fonts/remixicon.css";
 import { useCart } from "./CartContext";
 
-// let v;
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { state, dispatch } = useCart();

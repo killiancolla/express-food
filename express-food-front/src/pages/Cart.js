@@ -58,7 +58,6 @@ export default function Cart() {
         orderData
       );
 
-      console.log("Order created:", response.data);
       clearCart();
       navigate("/account");
       toast.success("Votre commande à bien été enregistrée !");
@@ -118,11 +117,7 @@ export default function Cart() {
               <div className="glassMorph" key={index}>
                 <img src={plat.image} alt={plat.name} />
                 <div className="flexRow">
-                  <h2
-                    onClick={() => {
-                      console.log(state);
-                    }}
-                  >
+                  <h2>
                     {plat.name}
                   </h2>
                   <span>{plat.price} €</span>

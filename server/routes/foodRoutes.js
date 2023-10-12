@@ -6,7 +6,7 @@ const foodRouter = express.Router();
 
 foodRouter.get("/", Food.getAllFood);
 foodRouter.get("/:id", Food.getFoodById);
-foodRouter.post("/", Food.createFood);
+foodRouter.post("/", isAuth, isAdmin, Food.createFood);
 foodRouter.patch("/update/:id", isAuth, isAdmin, Food.updateFood);
 foodRouter.delete("/delete/:id", isAuth, isAdmin, Food.deleteFood);
 

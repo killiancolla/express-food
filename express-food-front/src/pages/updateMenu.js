@@ -21,8 +21,6 @@ const customStyles = {
 };
 
 export default function UpdateFood({ isOpen, onRequestClose, food, token }) {
-  //   preventDefault();
-  console.log(food);
   const create = async (e) => {
     e.preventDefault();
     try {
@@ -33,7 +31,7 @@ export default function UpdateFood({ isOpen, onRequestClose, food, token }) {
       });
       Navigate("/menu");
     } catch (error) {
-      console.log(getErrorFromBackend(error));
+      console.error(getErrorFromBackend(error));
     }
   };
 

@@ -81,9 +81,9 @@ function Waiter({ userInfo }) {
               name: res.data.name
             }
             if (i === 1) {
-              setDeliverers([res.data]);
+              setDeliverers([datas]);
             } else {
-              setDeliverers([...deliverers, res.data]);
+              setDeliverers([...deliverers, datas]);
             }
           })
           .catch((err) => {
@@ -98,7 +98,7 @@ function Waiter({ userInfo }) {
         }
       })
       .then((res) => {
-        getUsers(res.data.filter((element) => element.status == utils.delivererVailable._id));
+        getUsers(res.data.filter((element) => element.status === utils.delivererVailable._id));
       })
       .catch((err) => {
         console.error("Failed to fetch deliverers:", err);
@@ -248,7 +248,8 @@ function Deliverer({ userInfo }) {
         return toast.warning("Mauvais code de validation");
       }
       await axios.patch(`http://localhost:5000/api/order/update/${order._id}`, {
-        status: utils.orderDelivred._id
+        status: utils.orderDelivred._id,
+        order_end: new Date()
       }, {
         headers: {
           Authorization: `Bearer ${token}`

@@ -122,7 +122,6 @@ export default {
         flag: updatedFood.flag,
       });
     } catch (error) {
-      console.log(error);
       res.status(500).json({ error: "Internal server error" });
     }
   },

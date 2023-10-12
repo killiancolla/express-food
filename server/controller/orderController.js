@@ -1,9 +1,4 @@
 import Order from "../models/Order.js";
-// import User from "../models/User.js";
-// import OrderStatus from "../models/OrderStatus.js";
-// import Food from "../models/Food.js";
-// import Deliverer from "../models/Deliverers.js";
-// import Status from "../models/Status.js";
 
 export default {
   /**
@@ -157,7 +152,6 @@ export default {
         order_end: updatedOrder.order_end,
       });
     } catch (error) {
-      console.log(error);
       res.status(500).json({ error: "Internal server error" });
     }
   },

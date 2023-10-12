@@ -47,7 +47,6 @@ export default function Dashboard() {
     setSelectedFoodId(null);
   }
   const selectedFood = food.find((f) => f.id === selectedFoodId);
-  console.log(selectedFood);
   function deleteRow(id, table) {
     const list = async () => {
       await axios.delete(`http://localhost:5000/api/${table}/delete/${id}`, {
@@ -67,7 +66,6 @@ export default function Dashboard() {
   }
 
   const openUserModal = (user) => {
-    console.log(user);
     setSelectedUser(user);
     setModalUserOpen(true);
   };
@@ -88,10 +86,9 @@ export default function Dashboard() {
             user_id: selectedUser._id,
           }
         );
-        console.log("Livreur ajouté", response.data);
         setDeliver([...deliver, response.data]);
       } catch (error) {
-        console.log("Erreur lors de l'ajout du livreur", error);
+        console.error("Erreur lors de l'ajout du livreur", error);
       }
     } else if (isDeliver && !isLivreurUser) {
       // Supprimer en tant que livreur
@@ -103,10 +100,9 @@ export default function Dashboard() {
             data: { id: isDeliver._id },
           }
         );
-        console.log("Livreur supprimé", response.data);
         setDeliver(deliver.filter((d) => d.user_id !== selectedUser._id));
       } catch (error) {
-        console.log("Erreur lors de la suppression du livreur", error);
+        console.error("Erreur lors de la suppression du livreur", error);
       }
     }
 
@@ -118,7 +114,6 @@ export default function Dashboard() {
           { is_admin: 1 },
           { headers: { Authorization: `Bearer ${userInfo.token}` } }
         );
-        console.log("Admin ajouté", response.data);
         setUser(
           user.map((u) =>
             u._id === selectedUser._id ? { ...u, is_admin: 1 } : u
@@ -126,7 +121,7 @@ export default function Dashboard() {
         );
         setSelectedUser({ ...selectedUser, is_admin: 1 });
       } catch (error) {
-        console.log("Erreur lors de l'ajout de l'admin", error);
+        console.error("Erreur lors de l'ajout de l'admin", error);
       }
     } else if (selectedUser.is_admin == 1 && !isAdminUser) {
       // Supprimer en tant qu'admin
@@ -136,7 +131,6 @@ export default function Dashboard() {
           { is_admin: 0 },
           { headers: { Authorization: `Bearer ${userInfo.token}` } }
         );
-        console.log("Admin supprimé", response.data);
         setUser(
           user.map((u) =>
             u._id === selectedUser._id ? { ...u, is_admin: 0 } : u
@@ -144,7 +138,7 @@ export default function Dashboard() {
         );
         setSelectedUser({ ...selectedUser, is_admin: 0 });
       } catch (error) {
-        console.log("Erreur lors de la suppression de l'admin", error);
+        console.error("Erreur lors de la suppression de l'admin", error);
       }
     }
   };
@@ -170,9 +164,8 @@ export default function Dashboard() {
       });
       try {
         setUser(response.data);
-        console.log(response.data);
       } catch (error) {
-        console.log(getErrorFromBackend(error));
+        console.error(getErrorFromBackend(error));
       }
     };
     listUser();
@@ -188,7 +181,7 @@ export default function Dashboard() {
       try {
         setDeliver(response.data);
       } catch (error) {
-        console.log(getErrorFromBackend(error));
+        console.error(getErrorFromBackend(error));
       }
     };
     listDeliver();
@@ -204,7 +197,7 @@ export default function Dashboard() {
       try {
         setOrder(response.data);
       } catch (error) {
-        console.log(getErrorFromBackend(error));
+        console.error(getErrorFromBackend(error));
       }
     };
     listOrder();
@@ -324,8 +317,8 @@ export default function Dashboard() {
                           {d.status === "6523f3231cfc63a841e73698"
                             ? "Non disponible"
                             : d.status === "6523f32a1cfc63a841e7369a"
-                            ? "Disponible"
-                            : "En livraison"}
+                              ? "Disponible"
+                              : "En livraison"}
                         </td>
                         <td>
                           <i className="ri-edit-line"></i>
@@ -467,8 +460,8 @@ export default function Dashboard() {
                   order.status === "6523fc62641daa40634124d7"
                     ? "Préparation de votre commande"
                     : order.status === "6523fc6b641daa40634124d9"
-                    ? "Votre livreur est en route"
-                    : "Livrée";
+                      ? "Votre livreur est en route"
+                      : "Livrée";
                 return (
                   <tr key={order._id}>
                     <td>{order._id}</td>
