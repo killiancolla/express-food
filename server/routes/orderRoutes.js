@@ -6,9 +6,9 @@ const orderRouter = express.Router();
 
 orderRouter.get("/", Order.getAllOrders);
 orderRouter.get("/:id", Order.getOrderById);
-orderRouter.get("/code/:id", Order.isCodeValid);
+orderRouter.post("/code/:id", Order.isCodeValid);
 orderRouter.post("/", Order.createOrder);
-orderRouter.patch("/update/:id", isAuth, isAdmin, Order.updateOrder);
+orderRouter.patch("/update/:id", isAuth, Order.updateOrder);
 orderRouter.delete("/delete/:id", isAuth, isAdmin, Order.deleteOrder);
 
 export default orderRouter;
