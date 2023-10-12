@@ -5,14 +5,14 @@ export default function OrderTracking() {
         <div className="top-status">
           <h5>Suivi de commande</h5>
           <ul className="timeline">
-            <li className="active">
-              <img alt="svg" src="order.svg" />
+            <li className="valid">
+              <img alt="svg" src="toque.svg" />
             </li>
             <li className="active">
-              <img alt="svg" src="order.svg" />
+              <img alt="svg" src="bike.svg" />
             </li>
-            <li className="active">
-              <img alt="svg" src="order.svg" />
+            <li>
+              <img alt="svg" src="eat.svg" />
             </li>
           </ul>
           <ul className="timeline-text">

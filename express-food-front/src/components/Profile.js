@@ -26,20 +26,16 @@ export default function Profile({ userInfo, isClicked, setIsClicked }) {
             <Link
               to="#"
               onClick={(e) => setIsClicked(true)}
-              className={`list-group-item list-group-item-action border-0 ${
-                isClicked ? "active" : ""
-              }`}
+              className={`list-group-item list-group-item-action border-0 ${isClicked ? "active" : ""}`}
             >
               Vos informations
             </Link>
             <Link
               to="#"
               onClick={(e) => setIsClicked(false)}
-              className={`list-group-item list-group-item-action border-0 ${
-                !isClicked ? "active" : ""
-              }`}
+              className={`list-group-item list-group-item-action border-0 ${!isClicked ? "active" : ""}`}
             >
-              Vos commandes
+              Votre commande
             </Link>
           </div>
         </div>

@@ -48,6 +48,11 @@
   text-align: center;
 }
 
+#account .top-status ul li.valid {
+  border-color: lightgreen;
+  box-shadow: 1px 1px 20px 1px lightgreen inset;
+}
+
 #account .top-status ul li.active {
   border-color: #ffc107;
   box-shadow: 1px 1px 20px 1px #ffc107 inset;
