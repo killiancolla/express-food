@@ -18,7 +18,7 @@ export default function ProfitChart({ days, orders }) {
       labels: days,
       datasets: [
         {
-          label: "Profit des 7 derniers jours",
+          label: "Profit des 7 derniers jours (en €)",
           data: orders,
           backgroundColor: "rgba(75, 192, 192, 0.2)",
           borderColor: "rgba(75, 192, 192, 1)",

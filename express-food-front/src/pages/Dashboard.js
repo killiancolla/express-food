@@ -14,6 +14,7 @@ export default function Dashboard() {
   const [key, setKey] = useState("home");
   const [food, setFood] = useState([]);
   const [user, setUser] = useState([]);
+  const [deliver, setDeliver] = useState([]);
   const [order, setOrder] = useState([]);
   const [searchName, setSearchName] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -94,6 +95,22 @@ export default function Dashboard() {
     listUser();
   }, []);
 
+  useEffect(() => {
+    const listDeliver = async () => {
+      const response = await axios.get("http://localhost:5000/api/deliverer/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      try {
+        setDeliver(response.data);
+      } catch (error) {
+        console.log(getErrorFromBackend(error));
+      }
+    };
+    listDeliver();
+  }, []);
+  console.log(deliver);
   useEffect(() => {
     const listOrder = async () => {
       const response = await axios.get("http://localhost:5000/api/order", {
@@ -195,23 +212,29 @@ export default function Dashboard() {
                 <th>Nom</th>
                 <th>Prénom</th>
                 <th>Email</th>
-                <th>Role</th>
+                <th>Statut</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {user
-                .filter((user) => user.is_admin === 0)
-                .map((user, index) => (
-                  <tr key={user._id}>
-                    <td>{user._id}</td>
+              {deliver.map((d, index) => {
+                const thisDeliver = user.find((u) => u._id === d.user_id);
+                return (
+                  <tr key={d._id}>
+                    <td>{d._id}</td>
                     <td>
                       <img src="" />
-                      {user.name}
+                      {thisDeliver.name}
                     </td>
-                    <td>{user.firstname}</td>
-                    <td>{user.mail}</td>
-                    <td>{user.is_admin === 1 ? "ADMIN" : "CLIENT"}</td>
+                    <td>{thisDeliver.firstname}</td>
+                    <td>{thisDeliver.mail}</td>
+                    <td>
+                      {d.status === "6523f3231cfc63a841e73698"
+                        ? "Non disponible"
+                        : d.status === "6523f32a1cfc63a841e7369a"
+                        ? "Disponible"
+                        : "En livraison"}
+                    </td>
                     <td>
                       <i
                         onClick={(e) => updateRow(user._id, "user")}
@@ -223,7 +246,8 @@ export default function Dashboard() {
                       ></i>
                     </td>
                   </tr>
-                ))}
+                );
+              })}
             </tbody>
           </Table>
         </Tab>
@@ -341,6 +365,12 @@ export default function Dashboard() {
               {order.map((order, index) => {
                 const thisCustomer = user.find((u) => u._id === order.customer);
                 const thisDeliver = user.find((u) => u._id === order.delivers);
+                const status =
+                  order.status === "6523fc62641daa40634124d7"
+                    ? "Préparation de votre commande"
+                    : order.status === "6523fc6b641daa40634124d9"
+                    ? "Votre livreur est en route"
+                    : "Livrée";
                 return (
                   <tr key={order._id}>
                     <td>{order._id}</td>
@@ -354,7 +384,7 @@ export default function Dashboard() {
                     ) : (
                       <td>Non attribué</td>
                     )}
-                    <td>{order.status}</td>
+                    <td>{status}</td>
                     <td>
                       {order.products.map((product, index) => {
                         const thisProduct = food.find(
@@ -374,10 +404,6 @@ export default function Dashboard() {
                     <td>{order.order_start}</td>
                     <td>{order.order_end}</td>
                     <td>
-                      <i
-                        onClick={(e) => updateRow(order._id, "order")}
-                        class="ri-edit-line"
-                      ></i>
                       <i
                         onClick={(e) => deleteRow(order._id, "order")}
                         class="ri-delete-bin-7-fill"

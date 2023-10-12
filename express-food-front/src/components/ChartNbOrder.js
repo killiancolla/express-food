@@ -18,7 +18,7 @@ export default function DataChart({ days, orders }) {
       labels: days,
       datasets: [
         {
-          label: "Ventes des 7 derniers jours",
+          label: "Commandes des 7 derniers jours",
           data: orders,
           backgroundColor: "rgba(75, 192, 192, 0.2)",
           borderColor: "rgba(75, 192, 192, 1)",
