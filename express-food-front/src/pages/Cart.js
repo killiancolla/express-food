@@ -15,6 +15,9 @@ export default function Cart() {
   const [total, setTotal] = useState(0);
   const [fdp, setFdp] = useState(0);
 
+  const [address, setAddress] = useState('');
+  const [coordinates, setCoordinates] = useState(null);
+
   const clearCart = () => {
     dispatch({ type: 'CLEAR_CART' });
   };
@@ -24,6 +27,16 @@ export default function Cart() {
   };
 
   const handleOrder = async () => {
+    if (!userInfo) {
+      navigate("/auth")
+      return
+    } else if (cart.length < 1) {
+      toast.warning("Votre panier est vide")
+      return
+    } else if (!coordinates) {
+      toast.warning('Veuillez entrer votre adresse')
+    }
+
     try {
       const products = cart.map(item => ({
         foodId: item._id,
@@ -31,6 +44,7 @@ export default function Cart() {
       }));
       const orderData = {
         customer: userInfo._id, // id utilisateur
+        address: coordinates,
         price: (Math.round((total + fdp) * 100) / 100),
         products,
         code: Math.floor(Math.random() * 99 + 1).toString() // Numero aléatoire entre 1 et 99
@@ -46,6 +60,7 @@ export default function Cart() {
       clearCart()
       navigate("/account")
       toast.success('Votre commande à bien été enregistrée !')
+      return
     } catch (error) {
       console.error('Error creating order:', error);
     }
@@ -67,6 +82,30 @@ export default function Cart() {
       setFdp(2.99)
     }
   }, [state]);
+
+  const fetchCoordinates = async () => {
+    try {
+      const response = await axios.get(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${address}`
+      );
+
+      if (response.data.length > 0) {
+        const location = response.data[0];
+        setCoordinates({
+          longitude: location.lat,
+          latitude: location.lon,
+        });
+        toast.success("Votre adresse a bien été mise à jour")
+        return
+      } else {
+        toast.warning('Adresse non trouvée');
+        return
+      }
+    } catch (error) {
+      console.error('Une erreur s’est produite:', error);
+    }
+  };
+
 
   return (
     <span id="cart">
@@ -98,7 +137,7 @@ export default function Cart() {
               </div>
             ))
           ) : (
-            <p>Votre panier est vide.</p>
+            <p className="empty">Votre panier est vide.</p>
           )}
         </div>
         <div className="resumeCart">
@@ -106,7 +145,17 @@ export default function Cart() {
           <div>Livraison<span>{fdp} €</span></div>
           <hr></hr>
           <div style={{ fontWeight: "bold" }}>Total<span>{Math.round((total + fdp) * 100) / 100} €</span></div>
-          <button onClick={handleOrder}>Valider ma commande</button>
+          <div>
+            <input
+              type="text"
+              className="address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              placeholder="Entrez une adresse"
+            />
+            <button className="validate" onClick={fetchCoordinates}><i class="ri-check-line"></i></button>
+          </div>
+          <button className="command" onClick={handleOrder}>Valider ma commande</button>
         </div>
       </div>
     </span >

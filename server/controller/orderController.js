@@ -56,6 +56,7 @@ export default {
   createOrder: async (req, res) => {
     const {
       customer,
+      address,
       delivers,
       status,
       price,
@@ -66,6 +67,7 @@ export default {
     } = req.body;
     const newOrder = new Order({
       customer: customer,
+      address: address,
       delivers: delivers,
       status: status,
       price: price,
@@ -79,6 +81,7 @@ export default {
       res.send({
         _id: order._id,
         customer: order.customer,
+        address: order.address,
         delivers: order.delivers,
         status: order.status,
         products: order.products,

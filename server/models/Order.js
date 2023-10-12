@@ -6,6 +6,16 @@ const orderSchema = new mongoose.Schema({
     ref: 'user',
     required: true,
   },
+  address: {
+    latitude: {
+      type: Number,
+      required: true,
+    },
+    longitude: {
+      type: Number,
+      required: true,
+    },
+  },
   delivers: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'deliverers',
