@@ -92,8 +92,8 @@ export default function Cart() {
       if (response.data.length > 0) {
         const location = response.data[0];
         setCoordinates({
-          longitude: location.lat,
-          latitude: location.lon,
+          longitude: location.lon,
+          latitude: location.lat,
         });
         toast.success("Votre adresse a bien été mise à jour")
         return
