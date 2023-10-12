@@ -7,7 +7,8 @@ import { useCart } from "../components/CartContext";
 import { getErrorFromBackend } from "./../utils";
 import Button from "react-bootstrap/esm/Button";
 import { Link } from "react-router-dom";
-import DataChart from "../components/Chart";
+import DataChart from "../components/ChartNbOrder";
+import ProfitChart from "../components/ChartProfitOrder";
 
 export default function Dashboard() {
   const [key, setKey] = useState("home");
@@ -21,6 +22,7 @@ export default function Dashboard() {
   const token = userInfo.token;
   const [last7Days, setLast7Days] = useState([]);
   const [ordersNb, setOrdersNb] = useState([]);
+  const [totalOrders, setTotalOrders] = useState([]);
 
   function deleteRow(id, table) {
     const list = async () => {
@@ -112,6 +114,7 @@ export default function Dashboard() {
     const last7DaysArray = [];
     const ordersNbArray = [];
     const currentDate = new Date();
+    const totalOrders = [];
 
     for (let i = 0; i < 7; i++) {
       const previousDate = new Date();
@@ -121,13 +124,24 @@ export default function Dashboard() {
 
     last7DaysArray.sort().map((day) => {
       const nbOrder = order.filter((o) => o.order_start.startsWith(day));
+      let total = 0;
+      console.log(nbOrder);
+      nbOrder.map((o) => {
+        total += o.price;
+      });
+      console.log(total);
+      totalOrders.push(total);
       ordersNbArray.push(nbOrder.length);
     });
 
     setLast7Days(last7DaysArray);
     setOrdersNb(ordersNbArray);
+    setTotalOrders(totalOrders);
   }, [order]);
 
+  console.log(last7Days);
+  console.log(ordersNb);
+  console.log(totalOrders);
   return (
     <div>
       <h1>Dashboard</h1>
@@ -322,6 +336,7 @@ export default function Dashboard() {
                 <th>Statut</th>
                 <th>Produits</th>
                 <th>Code</th>
+                <th>Total</th>
                 <th>Demande de la commande</th>
                 <th>Commande livrée</th>
                 <th>Actions</th>
@@ -360,6 +375,7 @@ export default function Dashboard() {
                       })}
                     </td>
                     <td>{order.code}</td>
+                    <td>{order.price}€</td>
                     <td>{order.order_start}</td>
                     <td>{order.order_end}</td>
                     <td>
@@ -379,7 +395,10 @@ export default function Dashboard() {
           </Table>
         </Tab>
         <Tab eventKey="stats" title="Statistiques">
-          <DataChart days={last7Days} orders={ordersNb} />
+          <div style={{ display: "flex" }}>
+            <DataChart days={last7Days} orders={ordersNb} />
+            <ProfitChart days={last7Days} orders={totalOrders} />
+          </div>
         </Tab>
       </Tabs>
     </div>
