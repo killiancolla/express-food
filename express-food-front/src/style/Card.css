@@ -145,13 +145,24 @@
 
 .DetailFood {
   display: flex;
+  width: 90%;
 }
 
 .DetailFood img {
   width: 50%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
 }
 
-.DetailFood div {
+.DetailFood button {
+  border: none;
+  background: whitesmoke;
+  margin-right: 30px;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.DetailFood>div {
   padding: 2vw;
 }
 

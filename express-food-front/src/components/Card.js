@@ -11,6 +11,7 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
+    width: "95%"
   },
 };
 
@@ -31,6 +32,18 @@ export default function Card({ data }) {
 
   const handleClick = () => {
     addItemToCart(data);
+
+    setButtonClicked(true);
+
+    setTimeout(() => {
+      setButtonClicked(false);
+    }, 2000);
+  };
+
+  const handleAdd = () => {
+    addItemToCart(data);
+
+    setIsOpen(false)
 
     setButtonClicked(true);
 
@@ -83,8 +96,8 @@ export default function Card({ data }) {
             <p>{data.origins}</p>
             <p>{data.description}</p>
             <div>
-              <button>Ajouter au panier</button>
-              <button onClick={closeModal}>close</button>
+              <button onClick={handleAdd}>Ajouter au panier</button>
+              <button onClick={closeModal}>Fermer</button>
             </div>
           </div>
         </div>
