@@ -15,7 +15,7 @@ export default function OrderDetail({ order }) {
         </thead>
         <tbody>
           {order.products.map((product) => (
-            <tr id={product._id}>
+            <tr key={product._id}>
               <th>
                 <img src={product.foodImage} alt="product" width="80" />
               </th>

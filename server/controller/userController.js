@@ -129,6 +129,7 @@ export default {
         name: updatedUser.name,
         firstname: updatedUser.firstname,
         mail: updatedUser.mail,
+        is_admin: updatedUser.is_admin,
         // password: updatedUser.password,
         token: generateToken(updatedUser),
       });
