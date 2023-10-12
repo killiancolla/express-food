@@ -233,31 +233,33 @@ export default function Dashboard() {
               {deliver.length > 0 && (
                 deliver.map((d, index) => {
                   const thisDeliver = user.find((u) => u._id === d.user_id);
-                  return (
-                    <tr key={index}>
-                      <td>{d._id}</td>
-                      <td>{thisDeliver.name}</td>
-                      <td>{thisDeliver.firstname}</td>
-                      <td>{thisDeliver.mail}</td>
-                      <td>
-                        {d.status === "6523f3231cfc63a841e73698"
-                          ? "Non disponible"
-                          : d.status === "6523f32a1cfc63a841e7369a"
-                            ? "Disponible"
-                            : "En livraison"}
-                      </td>
-                      <td>
-                        <i
-                          onClick={(e) => updateRow(user._id, "user")}
-                          className="ri-edit-line"
-                        ></i>
-                        <i
-                          onClick={(e) => deleteRow(user._id, "user")}
-                          className="ri-delete-bin-7-fill"
-                        ></i>
-                      </td>
-                    </tr>
-                  );
+                  if (thisDeliver) {
+                    return (
+                      <tr key={index}>
+                        <td>{d._id}</td>
+                        <td>{thisDeliver.name}</td>
+                        <td>{thisDeliver.firstname}</td>
+                        <td>{thisDeliver.mail}</td>
+                        <td>
+                          {d.status === "6523f3231cfc63a841e73698"
+                            ? "Non disponible"
+                            : d.status === "6523f32a1cfc63a841e7369a"
+                              ? "Disponible"
+                              : "En livraison"}
+                        </td>
+                        <td>
+                          <i
+                            onClick={(e) => updateRow(user._id, "user")}
+                            className="ri-edit-line"
+                          ></i>
+                          <i
+                            onClick={(e) => deleteRow(user._id, "user")}
+                            className="ri-delete-bin-7-fill"
+                          ></i>
+                        </td>
+                      </tr>
+                    );
+                  }
                 }))}
             </tbody>
           </Table>
