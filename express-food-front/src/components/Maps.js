@@ -65,7 +65,7 @@ export default function Maps({ destination }) {
 
   const createClusterCustomIcon = (cluster) => {
     return new divIcon({
-      html: `<span className="cluster-icon">${cluster.getChildCount()}</span>`,
+      html: `<span class="cluster-icon">${cluster.getChildCount()}</span>`,
       className: "custom-marker-cluster",
       iconSize: point(33, 33, true),
     });
@@ -95,8 +95,8 @@ export default function Maps({ destination }) {
               marker.popUp === "ExpressFood"
                 ? customStartIcon
                 : marker.popUp === "Client"
-                ? customIcon
-                : customBikeIcon
+                  ? customIcon
+                  : customBikeIcon
             }
           >
             <Popup>{marker.popUp}</Popup>
