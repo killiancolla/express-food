@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import "../style/header.css";
 import "remixicon/fonts/remixicon.css";
 import { useCart } from "./CartContext";

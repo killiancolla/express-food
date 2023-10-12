@@ -17,7 +17,7 @@ const CartContext = createContext();
 const cartReducer = (state, action) => {
   switch (action.type) {
     case "ADD_FOOD":
-      const idExist = state.cart.some((item) => item._id == action.item._id);
+      const idExist = state.cart.some((item) => item._id === action.item._id);
       if (idExist) {
         return {
           ...state,

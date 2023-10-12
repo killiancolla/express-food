@@ -8,7 +8,7 @@ import Maps from '../components/Maps.js';
 import "../style/delivery.css";
 
 export default function Delivery() {
-  const { state, dispatch } = useCart();
+  const { state } = useCart();
   const { userInfo } = state;
 
   return (

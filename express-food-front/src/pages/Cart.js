@@ -1,8 +1,8 @@
 import "../style/Cart.css";
 import { useCart } from "../components/CartContext";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function Cart() {
@@ -79,12 +79,12 @@ export default function Cart() {
 
     if (newTotal >= 19.99) {
       setFdp(0);
-    } else if (newTotal == 0) {
+    } else if (newTotal === 0) {
       setFdp(0);
     } else {
       setFdp(2.99);
     }
-  }, [state]);
+  }, [state, cart]);
 
   const fetchCoordinates = async () => {
     try {

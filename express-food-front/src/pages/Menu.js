@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Card from "../components/Card";
-import { useCart } from "../components/CartContext";
 
 export default function Menu() {
   // Liste des plats

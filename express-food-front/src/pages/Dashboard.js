@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import axios from "axios";
@@ -17,9 +17,7 @@ export default function Dashboard() {
   const [user, setUser] = useState([]);
   const [deliver, setDeliver] = useState([]);
   const [order, setOrder] = useState([]);
-  const [searchName, setSearchName] = useState("");
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const { state, dispatch } = useCart();
+  const { state } = useCart();
   const { userInfo } = state;
   const token = userInfo.token;
   const [last7Days, setLast7Days] = useState([]);
@@ -30,7 +28,7 @@ export default function Dashboard() {
 
   function deleteRow(id, table) {
     const list = async () => {
-      const response = await axios.delete(
+      await axios.delete(
         `http://localhost:5000/api/${table}/delete/${id}`,
         {
           headers: {
@@ -51,7 +49,7 @@ export default function Dashboard() {
 
   function updateRow(id, table) {
     const list = async () => {
-      const response = await axios.patch(
+      await axios.patch(
         `http://localhost:5000/api/${table}/update/${id}`,
         {
           headers: {
@@ -80,7 +78,7 @@ export default function Dashboard() {
       setFood(response.data);
     };
     list();
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     const listUser = async () => {
@@ -96,7 +94,7 @@ export default function Dashboard() {
       }
     };
     listUser();
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     const listDeliver = async () => {
@@ -112,7 +110,7 @@ export default function Dashboard() {
       }
     };
     listDeliver();
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     const listOrder = async () => {
@@ -128,7 +126,7 @@ export default function Dashboard() {
       }
     };
     listOrder();
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     const last7DaysArray = [];
@@ -140,9 +138,9 @@ export default function Dashboard() {
 
     const foodOrdered = order.map((o) => o.products);
     foodOrdered.map((f) => {
-      f.map((fo) => {
+      return f.map((fo) => {
         const thisFood = food.find((food) => food._id === fo.foodId);
-        thisFood && thisFood.is_dessert === 1
+        return thisFood && thisFood.is_dessert === 1
           ? (dessert += fo.quantity)
           : (plat += fo.quantity);
       });
@@ -157,10 +155,10 @@ export default function Dashboard() {
       const nbOrder = order.filter((o) => o.order_start.startsWith(day));
       let total = 0;
       nbOrder.map((o) => {
-        total += o.price;
+        return total += o.price;
       });
       totalOrders.push(total);
-      ordersNbArray.push(nbOrder.length);
+      return ordersNbArray.push(nbOrder.length);
     });
 
     setLast7Days(last7DaysArray);
@@ -168,7 +166,7 @@ export default function Dashboard() {
     setTotalOrders(totalOrders);
     setNbPlat(plat);
     setNbDessert(dessert);
-  }, [order]);
+  }, [order, food]);
 
   return (
     <div>
@@ -196,10 +194,9 @@ export default function Dashboard() {
               {user
                 .filter((user) => user.is_admin === 0)
                 .map((user, index) => (
-                  <tr key={user._id}>
+                  <tr key={index}>
                     <td>{user._id}</td>
                     <td>
-                      <img src="" />
                       {user.name}
                     </td>
                     <td>{user.firstname}</td>
@@ -233,34 +230,35 @@ export default function Dashboard() {
               </tr>
             </thead>
             <tbody>
-              {deliver.map((d, index) => {
-                const thisDeliver = user.find((u) => u._id === d.user_id);
-                return (
-                  <tr key={d._id}>
-                    <td>{d._id}</td>
-                    <td>{thisDeliver.name}</td>
-                    <td>{thisDeliver.firstname}</td>
-                    <td>{thisDeliver.mail}</td>
-                    <td>
-                      {d.status === "6523f3231cfc63a841e73698"
-                        ? "Non disponible"
-                        : d.status === "6523f32a1cfc63a841e7369a"
-                          ? "Disponible"
-                          : "En livraison"}
-                    </td>
-                    <td>
-                      <i
-                        onClick={(e) => updateRow(user._id, "user")}
-                        className="ri-edit-line"
-                      ></i>
-                      <i
-                        onClick={(e) => deleteRow(user._id, "user")}
-                        className="ri-delete-bin-7-fill"
-                      ></i>
-                    </td>
-                  </tr>
-                );
-              })}
+              {deliver.length > 0 && (
+                deliver.map((d, index) => {
+                  const thisDeliver = user.find((u) => u._id === d.user_id);
+                  return (
+                    <tr key={index}>
+                      <td>{d._id}</td>
+                      <td>{thisDeliver.name}</td>
+                      <td>{thisDeliver.firstname}</td>
+                      <td>{thisDeliver.mail}</td>
+                      <td>
+                        {d.status === "6523f3231cfc63a841e73698"
+                          ? "Non disponible"
+                          : d.status === "6523f32a1cfc63a841e7369a"
+                            ? "Disponible"
+                            : "En livraison"}
+                      </td>
+                      <td>
+                        <i
+                          onClick={(e) => updateRow(user._id, "user")}
+                          className="ri-edit-line"
+                        ></i>
+                        <i
+                          onClick={(e) => deleteRow(user._id, "user")}
+                          className="ri-delete-bin-7-fill"
+                        ></i>
+                      </td>
+                    </tr>
+                  );
+                }))}
             </tbody>
           </Table>
         </Tab>
@@ -289,10 +287,10 @@ export default function Dashboard() {
               {food
                 .filter((food) => food.is_dessert === 0)
                 .map((food, index) => (
-                  <tr key={food._id}>
+                  <tr key={index}>
                     <td>{food._id}</td>
                     <td>
-                      <img style={{ width: "60px" }} src={food.image} />
+                      <img style={{ width: "60px" }} src={food.image} alt="imagefood" />
                       {food.name}
                     </td>
                     <td>{food.origins}</td>
@@ -332,10 +330,10 @@ export default function Dashboard() {
               {food
                 .filter((food) => food.is_dessert === 1)
                 .map((food, index) => (
-                  <tr key={food._id}>
+                  <tr key={index}>
                     <td>{food._id}</td>
                     <td>
-                      <img style={{ width: "60px" }} src={food.image} />
+                      <img style={{ width: "60px" }} src={food.image} alt="imagefooooood" />
                       {food.name}
                     </td>
                     <td>{food.origins}</td>

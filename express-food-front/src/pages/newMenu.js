@@ -10,7 +10,7 @@ import { useCart } from "../components/CartContext";
 export default function NewMenu() {
   const [backendData, setBackendData] = useState([]);
   const navigate = useNavigate();
-  const { state, dispatch } = useCart();
+  const { state } = useCart();
   const { userInfo } = state;
   const token = userInfo.token;
 

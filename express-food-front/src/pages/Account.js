@@ -63,7 +63,7 @@ export default function Account() {
       // console.log(lastOrder);
     };
     fetchUserOrders();
-  }, []);
+  }, [userInfo]);
 
   return (
     <span id="account">

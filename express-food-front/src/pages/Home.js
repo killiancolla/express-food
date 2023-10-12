@@ -1,6 +1,5 @@
 import '../style/Home.css'
 import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 
 export default function Home() {
 

@@ -5,7 +5,6 @@ import "leaflet/dist/leaflet.css";
 import { useState, useEffect } from "react";
 
 export default function Maps({ destination }) {
-  const [error, setError] = useState(null);
   const [position, setPosition] = useState({
     latitude: null,
     longitude: null,
@@ -21,11 +20,9 @@ export default function Maps({ destination }) {
           });
         },
         (error) => {
-          setError(error.message);
+          console.error(error);
         }
       );
-    } else {
-      setError("Géolocalisation non disponible");
     }
   }, []);
 

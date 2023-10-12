@@ -53,14 +53,10 @@ export default function Card({ data }) {
   };
 
   // Fonctions du panier
-  const { state, dispatch } = useCart();
+  const { dispatch } = useCart();
 
   const addItemToCart = (item) => {
     dispatch({ type: "ADD_FOOD", item });
-  };
-
-  const removeItemFromCart = (id) => {
-    dispatch({ type: "REMOVE_FOOD", id });
   };
 
   return (
