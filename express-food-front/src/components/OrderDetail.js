@@ -10,12 +10,12 @@ export default function OrderDetail({ order }) {
             </th>
             <th scope="col">Quantité</th>
             <th scope="col">Montant</th>
-            {/* <th scope="col">Statut</th> */}
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
-          {order.products.map((product) => (
-            <tr key={product._id}>
+          {order.products.map((product, index) => (
+            <tr key={index}>
               <th>
                 <img src={product.foodImage} alt="product" width="80" />
               </th>
@@ -26,6 +26,7 @@ export default function OrderDetail({ order }) {
               <td>
                 <strong>{product.foodPrice * product.foodQuantity} €</strong>
               </td>
+              <td></td>
             </tr>
           ))}
 

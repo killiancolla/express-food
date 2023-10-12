@@ -6,22 +6,20 @@ export default function OrderTracking({ order }) {
           <h5>Suivi de commande</h5>
           <ul className="timeline">
             <li
-              className={`${
-                order.orderStatus === "Préparation de votre commande"
-                  ? "active"
-                  : "valid"
-              }`}
+              className={`${order.orderStatus === "Préparation de votre commande"
+                ? "active"
+                : "valid"
+                }`}
             >
               <img alt="svg" src="toque.svg" />
             </li>
             <li
-              className={`${
-                order.orderStatus === "Votre livreur est en route"
-                  ? "active"
-                  : order.orderStatus === "Livrée"
+              className={`${order.orderStatus === "Votre livreur est en route"
+                ? "active"
+                : order.orderStatus === "Livrée"
                   ? "valid"
                   : ""
-              }`}
+                }`}
             >
               <img alt="svg" src="bike.svg" />
             </li>
@@ -34,7 +32,10 @@ export default function OrderTracking({ order }) {
             <li>En cours de livraison</li>
             <li>Livrée</li>
           </ul>
-          {"Code de validation"}
+          <br />
+          <span style={{ padding: "1rem" }}>
+            Code de validation : {order.orderCode}
+          </span>
         </div>
       </div>
     </div>
