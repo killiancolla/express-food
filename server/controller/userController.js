@@ -106,13 +106,14 @@ export default {
    */
   updateUser: async (req, res) => {
     const { id } = req.params;
-    const { name, firstname, mail, password, username } = req.body;
+    const { name, firstname, mail, is_admin, password, username } = req.body;
     try {
       const user = await User.findById(id);
       user.name = name || user.name;
       user.firstname = firstname || user.firstname;
       user.mail = mail || user.mail;
       user.username = username || user.username;
+      user.is_admin = is_admin;
       if (password === "" || password === undefined) {
         user.password = user.password;
       } else {
