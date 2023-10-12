@@ -136,3 +136,7 @@
 #cart .empty {
     text-align: center;
 }
+
+i.ri-delete-bin-line {
+    cursor: pointer;
+}

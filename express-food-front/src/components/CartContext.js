@@ -67,7 +67,7 @@ const cartReducer = (state, action) => {
     case "SAVE_DELIVERY_ADDRESS":
       return {
         ...state,
-        cart: { ...state, deliveryAddress: action.payload },
+        deliveryAddress: action.payload
       };
 
     default:
