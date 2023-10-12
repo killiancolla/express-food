@@ -48,7 +48,7 @@ export default function DataChart({ days, orders }) {
         chartInstance.current.destroy();
       }
     };
-  }, []); // Le tableau vide en tant que deuxième argument signifie que cela s'exécute uniquement après le premier rendu
+  }, [orders, days]); // Le tableau vide en tant que deuxième argument signifie que cela s'exécute uniquement après le premier rendu
 
   return (
     <div style={{ width: "30%", margin: "0 auto" }}>

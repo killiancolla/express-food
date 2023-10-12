@@ -19,6 +19,8 @@ export default function Dashboard() {
   const { state, dispatch } = useCart();
   const { userInfo } = state;
   const token = userInfo.token;
+  const [last7Days, setLast7Days] = useState([]);
+  const [ordersNb, setOrdersNb] = useState([]);
 
   function deleteRow(id, table) {
     const list = async () => {
@@ -106,19 +108,25 @@ export default function Dashboard() {
     listOrder();
   }, []);
 
-  const currentDate = new Date();
-  const last7Days = [];
-  for (let i = 0; i < 7; i++) {
-    const previousDate = new Date();
-    previousDate.setDate(currentDate.getDate() - i);
-    last7Days.push(previousDate.toISOString().slice(0, 10));
-  }
+  useEffect(() => {
+    const last7DaysArray = [];
+    const ordersNbArray = [];
+    const currentDate = new Date();
 
-  let ordersNb = [];
-  last7Days.reverse().map((day) => {
-    const nbOrder = order.filter((o) => o.order_start.startsWith(day));
-    ordersNb.push(nbOrder.length);
-  });
+    for (let i = 0; i < 7; i++) {
+      const previousDate = new Date();
+      previousDate.setDate(currentDate.getDate() - i);
+      last7DaysArray.push(previousDate.toISOString().slice(0, 10));
+    }
+
+    last7DaysArray.sort().map((day) => {
+      const nbOrder = order.filter((o) => o.order_start.startsWith(day));
+      ordersNbArray.push(nbOrder.length);
+    });
+
+    setLast7Days(last7DaysArray);
+    setOrdersNb(ordersNbArray);
+  }, [order]);
 
   return (
     <div>
