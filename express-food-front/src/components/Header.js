@@ -77,30 +77,30 @@ export default function Header() {
               </NavLink>
             </li>
             {userInfo && (
-              <>
-                <li className="nav__item">
-                  <NavLink
-                    onClick={closeMenu}
-                    to="/account"
-                    className={({ isActive }) =>
-                      isActive ? "nav__link active-link" : "nav__link"
-                    }
-                  >
-                    <i className="ri-account-circle-line"></i> Mon compte
-                  </NavLink>
-                </li>
-                <li className="nav__item">
-                  <NavLink
-                    onClick={closeMenu}
-                    to="/delivery"
-                    className={({ isActive }) =>
-                      isActive ? "nav__link active-link" : "nav__link"
-                    }
-                  >
-                    <i className="ri-bike-line"></i> Livraison
-                  </NavLink>
-                </li>
-              </>
+              <li className="nav__item">
+                <NavLink
+                  onClick={closeMenu}
+                  to="/account"
+                  className={({ isActive }) =>
+                    isActive ? "nav__link active-link" : "nav__link"
+                  }
+                >
+                  <i className="ri-account-circle-line"></i> Mon compte
+                </NavLink>
+              </li>
+            )}
+            {userInfo && (userInfo.is_deliverer === 1 || userInfo.is_admin === 1) && (
+              <li className="nav__item">
+                <NavLink
+                  onClick={closeMenu}
+                  to="/delivery"
+                  className={({ isActive }) =>
+                    isActive ? "nav__link active-link" : "nav__link"
+                  }
+                >
+                  <i className="ri-bike-line"></i> Livraison
+                </NavLink>
+              </li>
             )}
             {userInfo && userInfo.is_admin === 1 && (
               <li className="nav__item">
