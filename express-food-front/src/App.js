@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import React from "react";
+import React, { useState } from "react";
 import "./style/app.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,6 +12,9 @@ import Cart from "./pages/Cart";
 import Account from "./pages/Account";
 import Delivery from "./pages/Delivery";
 import NewMenu from "./pages/newMenu";
+import ProtectedRoute from "./components/ProtectedRoute";
+import AdminRoute from "./components/AdminRoute";
+import DeliverRoute from "./components/DeliverRoute";
 
 function App() {
   return (
@@ -24,10 +27,38 @@ function App() {
           <Route path="/menu" element={<Menu />} />
           <Route path="/auth" element={<Authentification />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/account" element={<Account />} />
-          <Route path="/delivery" element={<Delivery />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/newMenu" element={<NewMenu />} />
+          <Route
+            path="/account"
+            element={
+              <ProtectedRoute>
+                <Account />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/delivery"
+            element={
+              <DeliverRoute>
+                <Delivery />
+              </DeliverRoute>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <AdminRoute>
+                <Dashboard />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/newMenu"
+            element={
+              <AdminRoute>
+                <NewMenu />
+              </AdminRoute>
+            }
+          />
         </Routes>
       </main>
     </BrowserRouter>

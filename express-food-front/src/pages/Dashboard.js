@@ -125,11 +125,9 @@ export default function Dashboard() {
     last7DaysArray.sort().map((day) => {
       const nbOrder = order.filter((o) => o.order_start.startsWith(day));
       let total = 0;
-      console.log(nbOrder);
       nbOrder.map((o) => {
         total += o.price;
       });
-      console.log(total);
       totalOrders.push(total);
       ordersNbArray.push(nbOrder.length);
     });
@@ -139,9 +137,6 @@ export default function Dashboard() {
     setTotalOrders(totalOrders);
   }, [order]);
 
-  console.log(last7Days);
-  console.log(ordersNb);
-  console.log(totalOrders);
   return (
     <div>
       <h1>Dashboard</h1>
