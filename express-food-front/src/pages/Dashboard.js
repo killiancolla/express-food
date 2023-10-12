@@ -142,7 +142,7 @@ export default function Dashboard() {
     foodOrdered.map((f) => {
       f.map((fo) => {
         const thisFood = food.find((food) => food._id === fo.foodId);
-        thisFood.is_dessert === 1
+        thisFood && thisFood.is_dessert === 1
           ? (dessert += fo.quantity)
           : (plat += fo.quantity);
       });
@@ -245,8 +245,8 @@ export default function Dashboard() {
                       {d.status === "6523f3231cfc63a841e73698"
                         ? "Non disponible"
                         : d.status === "6523f32a1cfc63a841e7369a"
-                        ? "Disponible"
-                        : "En livraison"}
+                          ? "Disponible"
+                          : "En livraison"}
                     </td>
                     <td>
                       <i
@@ -382,8 +382,8 @@ export default function Dashboard() {
                   order.status === "6523fc62641daa40634124d7"
                     ? "Préparation de votre commande"
                     : order.status === "6523fc6b641daa40634124d9"
-                    ? "Votre livreur est en route"
-                    : "Livrée";
+                      ? "Votre livreur est en route"
+                      : "Livrée";
                 return (
                   <tr key={order._id}>
                     <td>{order._id}</td>
