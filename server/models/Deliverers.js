@@ -10,9 +10,6 @@ const delivererSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'status',
     required: true
-  },
-  position: {
-    type: Object
   }
 });
 

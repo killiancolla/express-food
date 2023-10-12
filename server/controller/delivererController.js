@@ -60,8 +60,7 @@ export default {
       res.send({
         _id: deliverer._id,
         user_id: deliverer.user_id,
-        status: deliverer.status,
-        position: deliverer.position
+        status: deliverer.status
       });
     } catch (error) {
       res.status(500).json({ error: "Internal server error" });
@@ -75,7 +74,7 @@ export default {
     const { id } = req.params;
     try {
       const status = await Status.findById(req.body.status_id);
-      if (status.length == 0) {
+      if (!status) {
         return res.status(409).json({ error: "Status not found" });
       }
       const deliverer = await Deliverer.findById(id);
@@ -87,31 +86,7 @@ export default {
       res.send({
         _id: updatedDeliverer._id,
         user_id: updatedDeliverer.user_id,
-        status: updatedDeliverer.status,
-        position: updatedDeliverer.position
-      });
-    } catch (error) {
-      res.status(500).json({ error: "Internal server error" });
-    }
-  },
-
-  /**
-   * Modification de la position du livreur
-   */
-  updateDelivererPosition: async (req, res) => {
-    const { id } = req.params;
-    try {
-      const deliverer = await Deliverer.findById(id);
-      deliverer.position = req.body.position || deliverer.position;
-      const updatedDeliverer = await deliverer.save();
-      if (!updatedDeliverer) {
-        return res.status(404).json({ error: "Deliverer not found" });
-      }
-      res.send({
-        _id: updatedDeliverer._id,
-        user_id: updatedDeliverer.user_id,
-        status: updatedDeliverer.status,
-        position: updatedDeliverer.position
+        status: updatedDeliverer.status
       });
     } catch (error) {
       res.status(500).json({ error: "Internal server error" });

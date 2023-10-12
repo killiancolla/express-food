@@ -1,4 +1,50 @@
-#delivery {
+#delivery .waiterman {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+#delivery .waiterman span {
+  width: 50%;
+}
+
+#delivery .waiterman form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background-color: #eaeaea;
+  padding: 1rem;
+}
+
+#delivery .waiterman form .header {
+  display: flex;
+  justify-content: space-between;
+}
+
+#delivery .waiterman form ul {
+  padding: 1rem;
+}
+
+#delivery .waiterman form div:has(select) {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 1rem;
+}
+
+#delivery .deliveryman-waiting {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+#delivery .deliveryman-waiting .mr-5 {
+  margin-right: 5rem;
+}
+
+#delivery .deliveryman-started {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
