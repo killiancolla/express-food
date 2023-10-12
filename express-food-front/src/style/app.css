@@ -142,7 +142,7 @@ img {
 }
 
 .main {
-  overflow: hidden;
+  /* overflow: hidden; */
   padding-block: 1rem 0 !important;
   margin-bottom: 5rem;
 }
