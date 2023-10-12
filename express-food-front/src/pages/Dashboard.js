@@ -6,12 +6,18 @@ import Table from "react-bootstrap/Table";
 import { useCart } from "../components/CartContext";
 import { getErrorFromBackend } from "./../utils";
 import Button from "react-bootstrap/esm/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DataChart from "../components/ChartNbOrder";
 import ProfitChart from "../components/ChartProfitOrder";
 import ChartMenu from "../components/ChartMenu";
+import Modal from "react-modal";
+import UpdateFood from "./updateMenu";
+
+Modal.setAppElement("#root");
 
 export default function Dashboard() {
+  const [selectedFoodId, setSelectedFoodId] = useState(null);
+  const [modalIsOpen, setIsOpen] = useState(false);
   const [key, setKey] = useState("home");
   const [food, setFood] = useState([]);
   const [user, setUser] = useState([]);
@@ -25,38 +31,24 @@ export default function Dashboard() {
   const [totalOrders, setTotalOrders] = useState([]);
   const [nbPlats, setNbPlat] = useState(0);
   const [nbDessert, setNbDessert] = useState(0);
+  const navigate = useNavigate();
 
-  function deleteRow(id, table) {
-    const list = async () => {
-      await axios.delete(
-        `http://localhost:5000/api/${table}/delete/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (table === "user") {
-        setUser(user.filter((user) => user._id !== id));
-      } else if (table === "food") {
-        setFood(food.filter((food) => food._id !== id));
-      } else if (table === "order") {
-        setOrder(order.filter((order) => order._id !== id));
-      }
-    };
-    list();
+  function openModal(foodId) {
+    setSelectedFoodId(foodId);
   }
 
-  function updateRow(id, table) {
+  function closeModal() {
+    setSelectedFoodId(null);
+  }
+  const selectedFood = food.find((f) => f.id === selectedFoodId);
+  console.log(selectedFood);
+  function deleteRow(id, table) {
     const list = async () => {
-      await axios.patch(
-        `http://localhost:5000/api/${table}/update/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await axios.delete(`http://localhost:5000/api/${table}/delete/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (table === "user") {
         setUser(user.filter((user) => user._id !== id));
       } else if (table === "food") {
@@ -155,7 +147,7 @@ export default function Dashboard() {
       const nbOrder = order.filter((o) => o.order_start.startsWith(day));
       let total = 0;
       nbOrder.map((o) => {
-        return total += o.price;
+        return (total += o.price);
       });
       totalOrders.push(total);
       return ordersNbArray.push(nbOrder.length);
@@ -196,17 +188,12 @@ export default function Dashboard() {
                 .map((user, index) => (
                   <tr key={index}>
                     <td>{user._id}</td>
-                    <td>
-                      {user.name}
-                    </td>
+                    <td>{user.name}</td>
                     <td>{user.firstname}</td>
                     <td>{user.mail}</td>
                     <td>{user.is_admin === 1 ? "ADMIN" : "CLIENT"}</td>
                     <td>
-                      <i
-                        onClick={(e) => updateRow(user._id, "user")}
-                        className="ri-edit-line"
-                      ></i>
+                      <i className="ri-edit-line"></i>
                       <i
                         onClick={(e) => deleteRow(user._id, "user")}
                         className="ri-delete-bin-7-fill"
@@ -230,7 +217,7 @@ export default function Dashboard() {
               </tr>
             </thead>
             <tbody>
-              {deliver.length > 0 && (
+              {deliver.length > 0 &&
                 deliver.map((d, index) => {
                   const thisDeliver = user.find((u) => u._id === d.user_id);
                   if (thisDeliver) {
@@ -244,14 +231,11 @@ export default function Dashboard() {
                           {d.status === "6523f3231cfc63a841e73698"
                             ? "Non disponible"
                             : d.status === "6523f32a1cfc63a841e7369a"
-                              ? "Disponible"
-                              : "En livraison"}
+                            ? "Disponible"
+                            : "En livraison"}
                         </td>
                         <td>
-                          <i
-                            onClick={(e) => updateRow(user._id, "user")}
-                            className="ri-edit-line"
-                          ></i>
+                          <i className="ri-edit-line"></i>
                           <i
                             onClick={(e) => deleteRow(user._id, "user")}
                             className="ri-delete-bin-7-fill"
@@ -260,7 +244,7 @@ export default function Dashboard() {
                       </tr>
                     );
                   }
-                }))}
+                })}
             </tbody>
           </Table>
         </Tab>
@@ -292,7 +276,11 @@ export default function Dashboard() {
                   <tr key={index}>
                     <td>{food._id}</td>
                     <td>
-                      <img style={{ width: "60px" }} src={food.image} alt="imagefood" />
+                      <img
+                        style={{ width: "60px" }}
+                        src={food.image}
+                        alt="imagefood"
+                      />
                       {food.name}
                     </td>
                     <td>{food.origins}</td>
@@ -302,7 +290,7 @@ export default function Dashboard() {
                     <td>N/A</td>
                     <td>
                       <i
-                        onClick={(e) => updateRow(food._id, "food")}
+                        onClick={() => openModal(food._id)}
                         className="ri-edit-line"
                       ></i>
                       <i
@@ -335,7 +323,11 @@ export default function Dashboard() {
                   <tr key={index}>
                     <td>{food._id}</td>
                     <td>
-                      <img style={{ width: "60px" }} src={food.image} alt="imagefooooood" />
+                      <img
+                        style={{ width: "60px" }}
+                        src={food.image}
+                        alt="imagefooooood"
+                      />
                       {food.name}
                     </td>
                     <td>{food.origins}</td>
@@ -345,7 +337,7 @@ export default function Dashboard() {
                     <td>N/A</td>
                     <td>
                       <i
-                        onClick={(e) => updateRow(food._id, "food")}
+                        onClick={() => openModal(food._id)}
                         className="ri-edit-line"
                       ></i>
                       <i
@@ -382,8 +374,8 @@ export default function Dashboard() {
                   order.status === "6523fc62641daa40634124d7"
                     ? "Préparation de votre commande"
                     : order.status === "6523fc6b641daa40634124d9"
-                      ? "Votre livreur est en route"
-                      : "Livrée";
+                    ? "Votre livreur est en route"
+                    : "Livrée";
                 return (
                   <tr key={order._id}>
                     <td>{order._id}</td>
@@ -436,6 +428,12 @@ export default function Dashboard() {
           </div>
         </Tab>
       </Tabs>
+      <UpdateFood
+        isOpen={selectedFoodId !== null}
+        onRequestClose={closeModal}
+        food={selectedFood}
+        token={token}
+      />
     </div>
   );
 }
