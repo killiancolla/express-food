@@ -1,8 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-express-food-front/node_modules
-server/node_modules
+node_modules/
 server/.env
 /.pnp
 .pnp.js
@@ -11,7 +10,7 @@ server/.env
 /coverage
 
 # production
-/build
+build/
 
 # misc
 .DS_Store
