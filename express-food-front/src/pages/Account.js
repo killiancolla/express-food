@@ -58,7 +58,7 @@ export default function Account() {
         (a, b) => new Date(b.order_start) - new Date(a.order_start)
       );
 
-      const lastOrder = orderSort[0];
+      const lastOrder = orderSort[orderSort.length - 1];
       setUserLastOrder(lastOrder);
       // console.log(lastOrder);
     };
