@@ -10,12 +10,19 @@ import { Link } from "react-router-dom";
 import DataChart from "../components/ChartNbOrder";
 import ProfitChart from "../components/ChartProfitOrder";
 import ChartMenu from "../components/ChartMenu";
+import Modal from "react-modal";
 
 export default function Dashboard() {
   const [key, setKey] = useState("home");
   const [food, setFood] = useState([]);
   const [user, setUser] = useState([]);
   const [deliver, setDeliver] = useState([]);
+
+  const [isModalUserOpen, setModalUserOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [isAdminUser, setIsAdminUser] = useState(false);
+  const [isLivreurUser, setIsLivreurUser] = useState(false);
+
   const [order, setOrder] = useState([]);
   const { state } = useCart();
   const { userInfo } = state;
@@ -47,26 +54,73 @@ export default function Dashboard() {
     list();
   }
 
-  function updateRow(id, table) {
-    const list = async () => {
-      await axios.patch(
-        `http://localhost:5000/api/${table}/update/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (table === "user") {
-        setUser(user.filter((user) => user._id !== id));
-      } else if (table === "food") {
-        setFood(food.filter((food) => food._id !== id));
-      } else if (table === "order") {
-        setOrder(order.filter((order) => order._id !== id));
+  const openUserModal = (user) => {
+    console.log(user);
+    setSelectedUser(user);
+    setModalUserOpen(true);
+  };
+
+  const closeUserModal = () => {
+    setModalUserOpen(false);
+  };
+
+  const handleSaveUserUpdate = async () => {
+    const isDeliver = deliver.find((d) => d.user_id === selectedUser._id);
+
+    if (!isDeliver && isLivreurUser) {
+      // Ajouter en tant que livreur
+      try {
+        const response = await axios.post('http://localhost:5000/api/deliverer/add', {
+          user_id: selectedUser._id
+        });
+        console.log('Livreur ajouté', response.data);
+        setDeliver([...deliver, response.data]);
+      } catch (error) {
+        console.log('Erreur lors de l\'ajout du livreur', error);
       }
-    };
-    list();
-  }
+    } else if (isDeliver && !isLivreurUser) {
+      // Supprimer en tant que livreur
+      try {
+        const response = await axios.delete(`http://localhost:5000/api/deliverer/delete`, {
+          headers: { Authorization: `Bearer ${userInfo.token}` },
+          data: { id: isDeliver._id },
+        });
+        console.log('Livreur supprimé', response.data);
+        setDeliver(deliver.filter((d) => d.user_id !== selectedUser._id));
+      } catch (error) {
+        console.log('Erreur lors de la suppression du livreur', error);
+      }
+    }
+
+    if (selectedUser.is_admin == 0 && isAdminUser) {
+      // Ajouter en tant qu'admin
+      try {
+        const response = await axios.patch(`http://localhost:5000/api/user/update/${selectedUser._id}`,
+          { is_admin: 1 },
+          { headers: { Authorization: `Bearer ${userInfo.token}` } }
+        );
+        console.log('Admin ajouté', response.data);
+        setUser(user.map(u => u._id === selectedUser._id ? { ...u, is_admin: 1 } : u));
+        setSelectedUser({ ...selectedUser, is_admin: 1 });
+      } catch (error) {
+        console.log('Erreur lors de l\'ajout de l\'admin', error);
+      }
+    } else if (selectedUser.is_admin == 1 && !isAdminUser) {
+      // Supprimer en tant qu'admin
+      try {
+        const response = await axios.patch(`http://localhost:5000/api/user/update/${selectedUser._id}`,
+          { is_admin: 0 },
+          { headers: { Authorization: `Bearer ${userInfo.token}` } }
+        );
+        console.log('Admin supprimé', response.data);
+        setUser(user.map(u => u._id === selectedUser._id ? { ...u, is_admin: 0 } : u));
+        setSelectedUser({ ...selectedUser, is_admin: 0 });
+      } catch (error) {
+        console.log('Erreur lors de la suppression de l\'admin', error);
+      }
+    }
+  };
+
 
   useEffect(() => {
     const list = async () => {
@@ -89,6 +143,7 @@ export default function Dashboard() {
       });
       try {
         setUser(response.data);
+        console.log(response.data);
       } catch (error) {
         console.log(getErrorFromBackend(error));
       }
@@ -192,7 +247,7 @@ export default function Dashboard() {
             </thead>
             <tbody>
               {user
-                .filter((user) => user.is_admin === 0)
+                // .filter((user) => user.is_admin === 0)
                 .map((user, index) => (
                   <tr key={index}>
                     <td>{user._id}</td>
@@ -204,7 +259,7 @@ export default function Dashboard() {
                     <td>{user.is_admin === 1 ? "ADMIN" : "CLIENT"}</td>
                     <td>
                       <i
-                        onClick={(e) => updateRow(user._id, "user")}
+                        onClick={() => openUserModal(user)}
                         className="ri-edit-line"
                       ></i>
                       <i
@@ -249,7 +304,7 @@ export default function Dashboard() {
                         </td>
                         <td>
                           <i
-                            onClick={(e) => updateRow(user._id, "user")}
+                            // onClick={(e) => updateRow(user._id, "user")}
                             className="ri-edit-line"
                           ></i>
                           <i
@@ -302,7 +357,7 @@ export default function Dashboard() {
                     <td>N/A</td>
                     <td>
                       <i
-                        onClick={(e) => updateRow(food._id, "food")}
+                        // onClick={(e) => updateRow(food._id, "food")}
                         className="ri-edit-line"
                       ></i>
                       <i
@@ -345,7 +400,7 @@ export default function Dashboard() {
                     <td>N/A</td>
                     <td>
                       <i
-                        onClick={(e) => updateRow(food._id, "food")}
+                        // onClick={(e) => updateRow(food._id, "food")}
                         className="ri-edit-line"
                       ></i>
                       <i
@@ -436,6 +491,35 @@ export default function Dashboard() {
           </div>
         </Tab>
       </Tabs>
+      <Modal
+        isOpen={isModalUserOpen}
+        onRequestClose={closeUserModal}
+        // style={customStyles}
+        contentLabel="Example Modal"
+      >
+        <h2>Edit User</h2>
+        {selectedUser && (
+          <div>
+            <p>ID: {selectedUser._id}</p>
+            <p>Username: {selectedUser.username}</p>
+            <input
+              type="checkbox"
+              defaultChecked={selectedUser.is_admin == 1}
+              onChange={(e) => setIsAdminUser(e.target.checked)}
+            />
+            <label>isAdmin</label>
+
+            <input
+              type="checkbox"
+              defaultChecked={!!deliver.find((d) => d.user_id === selectedUser._id)}
+              onChange={(e) => setIsLivreurUser(e.target.checked)}
+            />
+            <label>isLivreur</label>
+            <button onClick={handleSaveUserUpdate}>Enregistrer</button>
+          </div>
+        )}
+        <button onClick={closeUserModal}>Close</button>
+      </Modal>
     </div>
   );
 }
