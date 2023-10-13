@@ -1,4 +1,9 @@
 export default function OrderDetail({ order }) {
+
+  const total = order.products.reduce((acc, product) => {
+    return acc + (product.foodPrice * product.foodQuantity);
+  }, 0);
+
   return (
     <div className="card-body p-0 table-responsive">
       <h4 className="p-3 mb-0">Détails de commande</h4>
@@ -38,18 +43,20 @@ export default function OrderDetail({ order }) {
             <td>
               <span className="text-muted">Prix de votre commande :</span>
               <br />
-              <strong>{order.orderPrice} €</strong>
+              <strong>{total} €</strong>
             </td>
             <td>
               <span className="text-muted">Frais de livraison :</span>
               <br />
-              <strong>{order.orderPrice > 19.99 ? 0.0 : 2.99} €</strong>
+              <strong>{total > 19.99 ? 0.0 : 2.99} €</strong>
             </td>
             <td>
               <span className="text-muted">Prix total :</span>
               <br />
               <strong>
-                {order.orderPrice > 19.99 ? order.orderPrice : order.orderPrice}{" "}
+                {total > 19.99
+                  ? total
+                  : total + 2.99}{" "}
                 €
               </strong>
             </td>
