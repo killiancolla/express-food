@@ -46,7 +46,8 @@ export default function Dashboard() {
   function closeModal() {
     setSelectedFoodId(null);
   }
-  const selectedFood = food.find((f) => f.id === selectedFoodId);
+  const selectedFood = food.find((f) => f._id === selectedFoodId);
+
   function deleteRow(id, table) {
     const list = async () => {
       await axios.delete(`http://localhost:5000/api/${table}/delete/${id}`, {
@@ -317,8 +318,8 @@ export default function Dashboard() {
                           {d.status === "6523f3231cfc63a841e73698"
                             ? "Non disponible"
                             : d.status === "6523f32a1cfc63a841e7369a"
-                              ? "Disponible"
-                              : "En livraison"}
+                            ? "Disponible"
+                            : "En livraison"}
                         </td>
                         <td>
                           <i className="ri-edit-line"></i>
@@ -460,8 +461,8 @@ export default function Dashboard() {
                   order.status === "6523fc62641daa40634124d7"
                     ? "Préparation de votre commande"
                     : order.status === "6523fc6b641daa40634124d9"
-                      ? "Votre livreur est en route"
-                      : "Livrée";
+                    ? "Votre livreur est en route"
+                    : "Livrée";
                 return (
                   <tr key={order._id}>
                     <td>{order._id}</td>
