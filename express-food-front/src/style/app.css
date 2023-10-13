@@ -177,3 +177,11 @@ img {
     margin-bottom: 5rem !important;
   }
 }
+
+.ReactModalPortal button {
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 20px;
+  margin-right: 20px;
+}

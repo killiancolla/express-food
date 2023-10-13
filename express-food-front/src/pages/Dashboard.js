@@ -39,6 +39,20 @@ export default function Dashboard() {
   const [nbDessert, setNbDessert] = useState(0);
   const navigate = useNavigate();
 
+  const customStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      width: "65%",
+      height: "80%",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+      overflow: "hide",
+    },
+  };
+
   function openModal(foodId) {
     setSelectedFoodId(foodId);
   }
@@ -526,7 +540,7 @@ export default function Dashboard() {
       <Modal
         isOpen={isModalUserOpen}
         onRequestClose={closeUserModal}
-        // style={customStyles}
+        style={customStyles}
         contentLabel="Example Modal"
       >
         <h2>Edit User</h2>
@@ -539,7 +553,7 @@ export default function Dashboard() {
               defaultChecked={selectedUser.is_admin == 1}
               onChange={(e) => setIsAdminUser(e.target.checked)}
             />
-            <label>isAdmin</label>
+            <label>Admin</label>
 
             <input
               type="checkbox"
@@ -548,11 +562,11 @@ export default function Dashboard() {
               }
               onChange={(e) => setIsLivreurUser(e.target.checked)}
             />
-            <label>isLivreur</label>
-            <button onClick={handleSaveUserUpdate}>Enregistrer</button>
+            <label>Livreur</label>
           </div>
         )}
-        <button onClick={closeUserModal}>Close</button>
+        <button onClick={handleSaveUserUpdate}>Enregistrer</button>
+        <button onClick={closeUserModal}>Fermer</button>
       </Modal>
     </div>
   );
