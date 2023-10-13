@@ -159,7 +159,12 @@
 
   #header .nav__list {
     display: flex;
+    align-items: center;
     column-gap: 3rem;
+  }
+
+  #header .nav__list .nav__item .nav__link:has(span) {
+    padding-top: 25px;
   }
 
   #header .nav__link {
