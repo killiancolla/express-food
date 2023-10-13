@@ -166,3 +166,18 @@
     font-size: var(--normal-font-size);
   }
 }
+
+#header span {
+  font-size: 14px;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 21px;
+  aspect-ratio: 1/1;
+  background: #198754;
+  border-radius: 50%;
+  position: relative;
+  right: -33px;
+  top: -35px;
+}

@@ -7,7 +7,7 @@ import { useCart } from "./CartContext";
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { state, dispatch } = useCart();
-  const { userInfo } = state;
+  const { cart, userInfo } = state;
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -72,7 +72,9 @@ export default function Header() {
                   isActive ? "nav__link active-link" : "nav__link"
                 }
               >
-                <i className="ri-shopping-cart-line"></i> Panier
+                <i className="ri-shopping-cart-line"></i> Panier {cart.length > 0 && (
+                  <span>{cart.length}</span>
+                )}
               </NavLink>
             </li>
             {userInfo && (
