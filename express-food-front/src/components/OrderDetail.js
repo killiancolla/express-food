@@ -43,15 +43,13 @@ export default function OrderDetail({ order }) {
             <td>
               <span className="text-muted">Frais de livraison :</span>
               <br />
-              <strong>{order.orderPrice > 19.99 ? 0.0 : 2.0} €</strong>
+              <strong>{order.orderPrice > 19.99 ? 0.0 : 2.99} €</strong>
             </td>
             <td>
               <span className="text-muted">Prix total :</span>
               <br />
               <strong>
-                {order.orderPrice > 19.99
-                  ? order.orderPrice
-                  : order.orderPrice + 2.0}{" "}
+                {order.orderPrice > 19.99 ? order.orderPrice : order.orderPrice}{" "}
                 €
               </strong>
             </td>
