@@ -125,6 +125,8 @@ function Waiter({ userInfo }) {
           Authorization: `Bearer ${token}`
         }
       });
+      getOrders();
+      getDeliverers();
     } catch (error) {
       console.error(error);
     }
@@ -249,7 +251,7 @@ function Deliverer({ userInfo }) {
       }
       await axios.patch(`http://localhost:5000/api/order/update/${order._id}`, {
         status: utils.orderDelivred._id,
-        order_end: new Date()
+        order_end: + new Date()
       }, {
         headers: {
           Authorization: `Bearer ${token}`
@@ -257,7 +259,7 @@ function Deliverer({ userInfo }) {
       });
 
       await axios.patch(`http://localhost:5000/api/deliverer/${delivererData._id}`, {
-        status: utils.delivererVailable._id
+        status_id: utils.delivererVailable._id
       }, {
         headers: {
           Authorization: `Bearer ${token}`
@@ -288,7 +290,7 @@ function Deliverer({ userInfo }) {
         }
       });
 
-      axios
+      await axios
         .get(`http://localhost:5000/api/deliverer/user/${userInfo._id}`, {
           headers: {
             Authorization: `Bearer ${token}`

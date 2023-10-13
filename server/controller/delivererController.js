@@ -74,6 +74,8 @@ export default {
     const { id } = req.params;
     try {
       const status = await Status.findById(req.body.status_id);
+      console.log(req.body);
+      console.log(status);
       if (!status) {
         return res.status(409).json({ error: "Status not found" });
       }
